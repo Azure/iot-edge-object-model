@@ -18,8 +18,7 @@ Vulnerabilities in dependent libraries are actively monitored and triaged.  Vuln
 For markdown files, we accept documentation pull requests submitted against the `master` branch on existing documents.
 
 # Contribute code
-Pull requestsshould be submitted against the `master` branch.  All pull requests must pass an automated build process ensuring compliance with linting rules, test coverage, etc.  Following approval, releases are automatically generated and published to [npmjs.org](http://npmjs.org).  The library enforces [semantic versioning](https://semver.org/) rules.  Build and release automation mandate the use of [Angular Commit Messages](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines) per [semantic-release](https://github.com/semantic-release/semantic-release).  Pull requests will be rejected if they do not use these conventions.
+Pull requests should be submitted against the `master` branch.  All pull requests must pass an automated build process ensuring compliance with lint rules, test coverage, etc.  Following approval, releases are automatically generated and published to [npmjs.org](http://npmjs.org).  The library enforces [semantic versioning](https://semver.org/) rules.  Release automation tools mandate the use of [Angular Commit Messages](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines) per [semantic-release](https://github.com/semantic-release/semantic-release).  Pull requests will be rejected if they do not use these conventions.
 
 Also, have you signed the [Contribution License Agreement](https://cla.microsoft.com/) ([CLA](https://cla.microsoft.com/))? A friendly bot will remind you about it when you submit your pull-request.
-
 If you feel like your contribution is going to be a major effort, please give us a heads-up to ensure your plans and ours are in sync :) Just open an issue on github and tag it "enhancement" or "feature request"
