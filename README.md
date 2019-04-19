@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Azure/iot-edge-object-model.svg?branch=master)](https://travis-ci.org/Azure/iot-edge-object-model)
+
 # Overview
 The IoT Edge Object Model is an isomorphic JavaScript library aiding the creation and update of IoT Edge [deployment manifests](https://docs.microsoft.com/en-us/azure/iot-edge/module-composition).  It provides an object model supporting the following scenarios:
 
