@@ -3,7 +3,7 @@
 
 export const chunkStringByBytes = (str: string, chunkSize: number): string[] => {
     if (!str || str.length === 0) {
-        return str ? [] : [''];
+        return str === '' ? [''] : [];
     }
     const chunks: string[] = [];
     let currentChunk: string = '';
@@ -30,9 +30,7 @@ export const chunkStringByBytes = (str: string, chunkSize: number): string[] => 
             currentChunkSize += charSize;
         }
     }
-    if (currentChunkSize > 0) {
-        chunks.push(currentChunk);
-    }
+    chunks.push(currentChunk);
     return chunks;
 };
 
