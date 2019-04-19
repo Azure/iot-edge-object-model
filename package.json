@@ -1,6 +1,6 @@
 {
   "name": "iot-edge-object-model",
-  "version": "0.1.0",
+  "version": "0.0.0-development",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {},
@@ -20,7 +20,8 @@
     "typescript": "3.3.3",
     "webpack": "4.30.0",
     "webpack-cli": "3.3.0",
-    "xml2js": "0.4.19"
+    "xml2js": "0.4.19",
+    "semantic-release": "^15.13.3"
   },
   "scripts": {
     "build": "npm run clean && npm run build-ci",
@@ -31,7 +32,8 @@
     "lint": "tslint --project .",
     "webpack-compile": "tsc --target es6 --module CommonJS --moduleResolution node webpack.prod.ts",
     "webpack-prod": "npm run webpack-compile && webpack --config webpack.prod.js",
-    "verify-coverage": "npm run coverage-compile && node ./scripts/verifyCoverage.js"
+    "verify-coverage": "npm run coverage-compile && node ./scripts/verifyCoverage.js",
+    "semantic-release": "semantic-release"
   },
   "jest": {
     "collectCoverage": true,
@@ -68,5 +70,9 @@
     },
     "preset": "ts-jest/presets/js-with-ts",
     "testMatch": null
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/iot-edge-object-model.git"
   }
 }
