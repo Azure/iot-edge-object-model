@@ -26,6 +26,10 @@ describe('parseUtilities', () => {
             expect(result.length).toEqual(1);
             expect(result[0]).toEqual(input);
         });
+        it('appropriately handles null or empty input', () => {
+            expect(chunkStringByBytes(null, 0)).toEqual([]);
+            expect(chunkStringByBytes('', 0)).toEqual(['']);
+        });
 
         it('returns array of multiple strings with each string being less than chunk size', () => {
             const result = chunkStringByBytes('This should be broken into 6 arrays, no longer than 10 bytes', 10);
@@ -33,6 +37,9 @@ describe('parseUtilities', () => {
             result.map(str => {
                 expect(str.length).toEqual(10);
             });
+        });
+        it('handles 3-byte surrogates', () => {
+            expect(chunkStringByBytes('Œ„´‰ˇÁ¨ˆØ∏”’',3)).toEqual(['Œ', '„', '´', '‰', 'ˇ', 'Á', '¨', 'ˆ', 'Ø', '∏', '’']);
         });
     });
 
@@ -42,6 +49,9 @@ describe('parseUtilities', () => {
         });
 
         it('correctly calculates 3 and 4-byte character strings', () => {
+            expect(byteSizeOfString('あ')).toEqual(3));
+            expect(byteSizeOfString('あああ')).toEqual(9));
+            expect(byteSizeOfString('ああ𠼮')).toEqual(10));
             expect(byteSizeOfString('𠼮')).toEqual(4);
         });
 
