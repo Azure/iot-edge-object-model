@@ -12,7 +12,7 @@ The object model supplies a common API to view and edit deployment manifests reg
 
 # Install
 The library is available via npmjs.org
-```
+```js
 npm install iot-edge-object-model --save-exact
 ```
 
@@ -22,7 +22,7 @@ The following sections specify how to consume library capabilities.
 ## Create a new deployment manifest
 A new IoT Edge deployment manifest can be instantiated with default parameters using the following code snippet:
 
-```
+```js
 import { newEdgeConfigurationContentViewModel, generateConfigurationContent } from 'iot-edge-object-model';
 ...
 const configurationViewModel = newEdgeConfigurationContentViewModel();
@@ -30,7 +30,7 @@ const configurationViewModel = newEdgeConfigurationContentViewModel();
 
 The [configurationContentViewModel](./src/viewModel/edgeConfigurationContentViewModel.ts) contains all properties to specify a deployment manifest.  For example, $EdgeAgent and $EdgeHub properties can be updated:
 
-```
+```js
 const configurationViewModel = newEdgeConfigurationContentViewModel();
 
 // add a registry credential.
@@ -46,7 +46,7 @@ configurationViewModel.$edgeHubDesiredPropertiesViewModel.storeAndForwardTimeToL
 ```
 
 Custom modules can also be amended:
-```
+```js
 configurationViewModel.$edgeAgentDesiredPropertiesViewModel.moduleSpecificationViewModels.push({
     name: 'modulename'
     type: 'docker'
@@ -68,7 +68,7 @@ configurationViewModel.$edgeAgentDesiredPropertiesViewModel.moduleSpecificationV
 ```
 Notably, the 'configurationViewModel' object is not a deployment manifest; it is a view model streamlining common editing tasks.  For example, the deployment manifest stores custom modules, registry credentials, and environment variables in a dictionary format.  The view model formats these data structures into arrays to simplify editing.  Once ready, the view model can be output to a deployment manifest:
 
-```
+```js
 const modulesContent = generateConfigurationContent(configurationContentViewModel);
 ```
 
@@ -77,7 +77,7 @@ The output object corresponds to the modulesContent object of a deployment.  It 
 ## Clone an At-Scale Deployment
 At Scale deployments are immutable but must occassionally be cloned with updates.  Once the source deployment has been retrieved from the [IoT Hub API](https://docs.microsoft.com/en-us/rest/api/iothub/service/getconfigurations), modulesContent can be edited:
 
-```
+```js
 import { toEdgeConfigurationContentViewModel, generateConfigurationContent } from 'iot-edge-object-model';
 ...
 let deployment;
@@ -95,7 +95,7 @@ If the source deployment is malformed or does not adhere to schema, a exception 
 ## Extract a deployment manifest from $EdgeAgent and $EdgeHub module twins
 A deployment manifest must sometimes be extracted from the desired properties of the device's $EdgeAgent and $EdgeHub module twins.  The library supports this scenario:
 
-```
+```js
 import {
     to$EdgeAgentModuleTwinViewModel,
     to$EdgeHubModuleTwinViewModel,
@@ -118,7 +118,7 @@ If either the desired properties of $EdgeAgent or $EdgeHub are malfomed or do no
 
 The [edgeModuleTwinsViewModel](./src/viewModel/$EdgeModuleTwinsViewModel.ts) encapsulates both the desired and reported properties of the $EdgeAgent/$EdgeHub twins.  To prepare a new deployment manifest, only the desired properties are necessary.  The library provides a helper function to format this information into a EdgeConfigurationContentViewModel:
 
-```
+```js
 const configurationContentViewModel = convertToEdgeConfigurationContentViewModel(edgeModuleTwinsViewModel);
 // perform edits.
 const modulesContent = generateConfigurationContent(configurationContentViewModel);
@@ -130,7 +130,7 @@ The desired properties of either the $EdgeAgent or $EdgeHub module twin may not 
 ## Extract IoT Edge Module Status
 The reported and desired properties from $EdgeAgent/$EdgeHub module twins can be used to examine the state of a deployment on a device.
 
-```
+```js
 import {
     to$EdgeAgentModuleTwinViewModel,
     to$EdgeHubModuleTwinViewModel,
