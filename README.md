@@ -10,7 +10,7 @@ The IoT Edge Object Model is an isomorphic JavaScript library aiding the creatio
 
 The object model supplies a common API to view and edit deployment manifests regardless of whether they originate from an [At-Scale](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-deploy-monitor) or [single device](https://docs.microsoft.com/en-us/azure/iot-edge/module-deployment-monitoring) deployment.
 
-# Install
+# Installation
 The library is available via npmjs.org
 ```js
 npm install iot-edge-object-model --save-exact
