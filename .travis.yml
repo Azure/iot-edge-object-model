@@ -8,8 +8,7 @@ before_install:
 jobs:
   include:
     - stage: Build and Test
-      script: npm run build-ci
-      script: npm run test && npm run verify-coverage
+      script: npm run build-ci && npm run test && npm run verify-coverage
     - stage: release
       node_js: lts/*
       # Advanced: optionally overwrite your default `script` step to skip the tests
