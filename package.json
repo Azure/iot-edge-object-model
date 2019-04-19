@@ -1,0 +1,72 @@
+{
+  "name": "iot-edge-object-model",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "23.3.5",
+    "@types/jest-plugin-context": "2.9.0",
+    "@types/node": "11.13.4",
+    "@types/webpack": "4.4.27",
+    "@types/xml2js": "0.4.4",
+    "awesome-typescript-loader": "5.2.1",
+    "jest": "23.6.0",
+    "jest-plugin-context": "2.9.0",
+    "ts-jest": "23.10.4",
+    "tslint": "5.12.1",
+    "tslint-loader": "3.5.4",
+    "tslint-origin-ordered-imports-rule": "1.1.2",
+    "typescript": "3.3.3",
+    "webpack": "4.30.0",
+    "webpack-cli": "3.3.0",
+    "xml2js": "0.4.19"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run build-ci",
+    "build-ci": "npm run webpack-compile && npm run webpack-prod",
+    "clean": "IF EXIST .\\dist RMDIR /Q /S .\\dist",
+    "coverage-compile": "tsc --target es6 --module CommonJS --moduleResolution node ./scripts/verifyCoverage.ts",
+    "test": "jest --coverage",
+    "lint": "tslint --project .",
+    "webpack-compile": "tsc --target es6 --module CommonJS --moduleResolution node webpack.prod.ts",
+    "webpack-prod": "npm run webpack-compile && webpack --config webpack.prod.js",
+    "verify-coverage": "npm run coverage-compile && node ./scripts/verifyCoverage.js"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/index.ts"
+    ],
+    "testEnvironment": "jsdom",
+    "coverageReporters": [
+      "html",
+      "cobertura"
+    ],
+    "setupFiles": [
+      "jest-plugin-context/setup"
+    ],
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "ts-jest"
+    },
+    "testRegex": "(\\.|/)(spec)\\.(tsx?)$",
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "jsx",
+      "ts",
+      "tsx"
+    ],
+    "testURL": "http://localhost",
+    "globals": {
+      "__DEV__": true,
+      "ts-jest": {
+        "tsConfig": "./tsconfig-jest.json",
+        "diagnostics": false
+      }
+    },
+    "preset": "ts-jest/presets/js-with-ts",
+    "testMatch": null
+  }
+}

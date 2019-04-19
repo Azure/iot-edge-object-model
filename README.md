@@ -1,14 +1,173 @@
+# Overview
+The IoT Edge Object Model is an isomorphic JavaScript library aiding the creation and update of IoT Edge [deployment manifests](https://docs.microsoft.com/en-us/azure/iot-edge/module-composition).  It provides an object model supporting the following scenarios:
 
-# Contributing
+1. Instantiate a new deployment manifest with default EdgeAgent and EdgeHub values (e.g. create options, restart policy, et. al.).
+2. Clone an At-Scale deployment.
+3. Extract a deployment manifest from $EdgeAgent and $EdgeHub module twin desired properties.
+4. Extract IoT Edge module status (e.g. last updated time, exit code) from $EdgeAgent and $EdgeHub module twin reported properties.
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
+The object model supplies a common API to view and edit deployment manifests regardless of whether they originate from an [At-Scale](https://docs.microsoft.com/en-us/azure/iot-edge/how-to-deploy-monitor) or [single device](https://docs.microsoft.com/en-us/azure/iot-edge/module-deployment-monitoring) deployment.
 
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+# Install
+The library is available via npmjs.org
+```
+npm install iot-edge-object-model --save-exact
+```
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+# How To Use
+The following sections specify how to consume library capabilities.
+
+## Create a new deployment manifest
+A new IoT Edge deployment manifest can be instantiated with default parameters using the following code snippet:
+
+```
+import { newEdgeConfigurationContentViewModel, generateConfigurationContent } from 'iot-edge-object-model';
+...
+const configurationViewModel = newEdgeConfigurationContentViewModel();
+```
+
+The [configurationContentViewModel](./src/viewModel/edgeConfigurationContentViewModel.ts) contains all properties to specify a deployment manifest.  For example, $EdgeAgent and $EdgeHub properties can be updated:
+
+```
+const configurationViewModel = newEdgeConfigurationContentViewModel();
+
+// add a registry credential.
+configurationViewModel.$edgeAgentDesiredPropertiesViewModel.registryCredentials.push({
+    name: 'registryCredential',
+    address: 'endpoint',
+    username: 'username value',
+    password: 'password value'
+});
+
+// change store and forward time to live
+configurationViewModel.$edgeHubDesiredPropertiesViewModel.storeAndForwardTimeToLive = 7200;
+```
+
+Custom modules can also be amended:
+```
+configurationViewModel.$edgeAgentDesiredPropertiesViewModel.moduleSpecificationViewModels.push({
+    name: 'modulename'
+    type: 'docker'
+    createOptions: ''
+    image: 'imageurl'
+    version: '1.0'
+    environmentVariables: [{
+        name: 'variableName',
+        value: 'variableValue'
+    }],
+    desiredProperties: {
+        "properties.desired": {
+            "desiredProperty":"propertyValue"
+        }
+    }
+    restartPolicy: 'always'
+    status: 'running'
+});
+```
+Notably, the 'configurationViewModel' object is not a deployment manifest; it is a view model streamlining common editing tasks.  For example, the deployment manifest stores custom modules, registry credentials, and environment variables in a dictionary format.  The view model formats these data structures into arrays to simplify editing.  Once ready, the view model can be output to a deployment manifest:
+
+```
+const modulesContent = generateConfigurationContent(configurationContentViewModel);
+```
+
+The output object corresponds to the modulesContent object of a deployment.  It can be inserted as part of an At-Scale deployment or posted to configure an individual device.
+
+## Clone an At-Scale Deployment
+At Scale deployments are immutable but must occassionally be cloned with updates.  Once the source deployment has been retrieved from the [IoT Hub API](https://docs.microsoft.com/en-us/rest/api/iothub/service/getconfigurations), modulesContent can be edited:
+
+```
+import { toEdgeConfigurationContentViewModel, generateConfigurationContent } from 'iot-edge-object-model';
+...
+let deployment;
+// get deployment from API.
+
+const configurationViewModel = toEdgeConfigurationContentViewModel(deployment.modulesContent);
+// perform edits.
+
+const modulesContent = generateConfigurationContentViewModel(configurationViewModel);
+// submit new deployment with updated modules content.
+```
+
+If the source deployment is malformed or does not adhere to schema, a exception is thrown of type: [EdgeParseException](./src/errors/edgeParseException.ts).
+
+## Extract a deployment manifest from $EdgeAgent and $EdgeHub module twins
+A deployment manifest must sometimes be extracted from the desired properties of the device's $EdgeAgent and $EdgeHub module twins.  The library supports this scenario:
+
+```
+import {
+    to$EdgeAgentModuleTwinViewModel,
+    to$EdgeHubModuleTwinViewModel,
+    convertToEdgeConfigurationContentViewModel,
+    generateConfigurationContent } from 'iot-edge-object-model';
+
+let edgeAgentTwin;
+ // get $EdgeAgent module twin from API.
+
+let edgeHubTwin;
+// get $EdgeHub module twin from API.
+
+const edgeModuleTwinsViewModel = {
+    $edgeAgent: to$EdgeAgentModuleTwinViewModel(edgeAgentTwin),
+    $edgeHub: to$EdgeHubModuleTwinViewModel(edgeHubTwin)
+};
+```
+
+If either the desired properties of $EdgeAgent or $EdgeHub are malfomed or do not adhere to schema, an exception is thrown of type: [EdgeParseException](./src/errors/edgeParseException.ts).
+
+The [edgeModuleTwinsViewModel](./src/viewModel/$EdgeModuleTwinsViewModel.ts) encapsulates both the desired and reported properties of the $EdgeAgent/$EdgeHub twins.  To prepare a new deployment manifest, only the desired properties are necessary.  The library provides a helper function to format this information into a EdgeConfigurationContentViewModel:
+
+```
+const configurationContentViewModel = convertToEdgeConfigurationContentViewModel(edgeModuleTwinsViewModel);
+// perform edits.
+const modulesContent = generateConfigurationContent(configurationContentViewModel);
+// submit updated deployment manifest.
+```
+
+The desired properties of either the $EdgeAgent or $EdgeHub module twin may not be present in all scenarios.  If unavailable (e.g. null on [EdgeModuleTwinsViewModel](./src/viewModel/$EdgeModuleTwinsViewModel.ts)), default properties (as defined when calling newEdgeConfigurationContent) are substituted.
+
+## Extract IoT Edge Module Status
+The reported and desired properties from $EdgeAgent/$EdgeHub module twins can be used to examine the state of a deployment on a device.
+
+```
+import {
+    to$EdgeAgentModuleTwinViewModel,
+    to$EdgeHubModuleTwinViewModel,
+    convertToconvertToEdgeModuleViewModels } from 'iot-edge-object-model';
+
+let edgeAgentTwin;
+// get $EdgeAgent module twin from API.
+
+let edgeHubTwin;
+// get $EdgeHub module twin from API.
+
+const edgeModuleTwinsViewModel = {
+    $edgeAgent: to$EdgeAgentModuleTwinViewModel(edgeAgentTwin),
+    $edgeHub: to$EdgeHubModuleTwinViewModel(edgeHubTwin)
+};
+
+const edgeModuleViewModels = convertToEdgeModuleViewModels(edgeModuleTwinsViewModel);
+```
+
+The resulting array of [EdgeModuleViewModel](./src/viewModel/edgeModuleViewModel.ts)s includes a digest of both system (e.g. EdgeAgent, EdgeHub) and custom IoT Edge modules.  These digests indicate whether the IoT Edge modules is desired, reported, or both.  It subsequently allows comparison between desired and reported state.
+
+# Conventions
+The adoption of view models simplifies several editing tasks.  It additionally insulates consuming applications from changes to the IoT Edge deployment schema.  As additional schema versions are introduced, applications may continue to support deployments issued in prior schemas.  Currently, the library supports the following schema versions:
+
+* EdgeAgent: 1.0
+* EdgeHub: 1.0
+
+If either the EdgeAgent or EdgeHub schemaVersion properties specify an unsupported version, the library throws an instance of [EdgeUnsupportedSchemaException](./src/errors/edgeUnsupportedSchemaException.ts).
+
+Reviewing source file, readers will encounter the use of $ in file and type names.  This convention arises because 'EdgeAgent' and 'EdgeHub' may refer either to a module identity twin or IoT Edge modules deployed to a device. As a coding convention, types are prefixed with '$' (e.g. $EdgeAgent and $EdgeHub) when they refer to module identity twin data structures. Conversely, the ommission of '$' indicates the type models a portion of the deployment manifest.
+
+## Linting
+The library utilizes [TSLint](https://www.npmjs.com/package/tslint) to maintain consistent code format.  Linting rules are viewable [here](./tslint.json).
+
+## Tests
+The library utilizes [Jest](https://jestjs.io/) for unit tests and code coverage calculation.  Unit tests reside adjacent to production files and are demarcated with a .spec.ts[x] extension.
+
+## Packaging
+The library utilizes [webpack](https://webpack.js.org/) for packaging.  The deployment package ships with all TypeScript definitions and a small bundle (e.g. less than 20KB).
+
+## Contributing
+The IoT UPX team welcomes suggestions, bug reports, and contributions.  Our contributing guidelines are available [here](./contributing.md).  Notably, the team intends to keep this library focused on easing the challenges of displaying and editing deployment manifests.
