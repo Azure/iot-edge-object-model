@@ -168,8 +168,5 @@ The library utilizes [TSLint](https://www.npmjs.com/package/tslint) to maintain 
 ## Tests
 The library utilizes [Jest](https://jestjs.io/) for unit tests and code coverage calculation.  Unit tests reside adjacent to production files and are demarcated with a .spec.ts[x] extension.
 
-## Packaging
-The library utilizes [webpack](https://webpack.js.org/) for packaging.  The deployment package ships with all TypeScript definitions and a small bundle (e.g. less than 20KB).
-
 ## Contributing
 The IoT UPX team welcomes suggestions, bug reports, and contributions.  Our contributing guidelines are available [here](./contributing.md).  Notably, the team intends to keep this library focused on easing the challenges of displaying and editing deployment manifests.
