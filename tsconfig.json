@@ -2,9 +2,9 @@
   "compilerOptions": {
     "outDir": "dist",
     "declaration": true,
-    "module": "esnext",
+    "module": "commonjs",
     "target": "es5",
-    "lib": [ "es6", "dom" ],
+    "lib": [ "es5", "dom" ],
     "sourceMap": true,
     "jsx": "react",
     "moduleResolution": "node",
