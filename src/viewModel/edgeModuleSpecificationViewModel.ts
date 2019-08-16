@@ -5,7 +5,7 @@ import { BaseEdgeModuleSpecificationViewModel } from './baseEdgeModuleSpecificat
 import { StringMap } from '../utilities/stringMap';
 
 export interface EdgeModuleSpecificationViewModel extends BaseEdgeModuleSpecificationViewModel{
-    desiredProperties: StringMap<object> | null;
+    desiredProperties: StringMap<object | string> | null;
     restartPolicy: string;
     status: string;
     asaModuleInformation?: AsaModuleInformation;

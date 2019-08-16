@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { $EdgeAgentDesiredPropertiesViewModel } from '../../../viewModel/$EdgeAgentDesiredPropertiesViewModel';
-import { $EdgeAgentDesiredProperties } from '../model/$EdgeAgentDesiredProperties';
+import { $EdgeAgentDesiredProperties, $EdgeAgentModules, $EdgeAgentRegistryCredentials } from '../model/$EdgeAgentDesiredProperties';
 import { BaseEdgeModuleSpecification } from '../model/baseEdgeModuleSpecification';
 import { BaseEdgeModuleSpecificationViewModel } from '../../../viewModel/baseEdgeModuleSpecificationViewModel';
 import { EdgeAgentModuleSpecificationViewModel } from '../../../viewModel/edgeAgentModuleSpecificationViewModel';
@@ -32,7 +32,7 @@ export const get$EdgeAgentDesiredPropertiesViewModel = (edgeAgentDesiredProperti
     return $edgeAgentDesiredPropertiesViewModel;
 };
 
-export const getModuleSpecificationViewModels = (edgeAgentDesiredProperties: $EdgeAgentDesiredProperties): EdgeModuleSpecificationViewModel[] => {
+export const getModuleSpecificationViewModels = (edgeAgentDesiredProperties: $EdgeAgentModules): EdgeModuleSpecificationViewModel[] => {
     const modules = edgeAgentDesiredProperties.modules;
     if (!modules) {
         throw new EdgeParseException([
@@ -49,7 +49,7 @@ export const getModuleSpecificationViewModels = (edgeAgentDesiredProperties: $Ed
     return moduleSpecifications;
 };
 
-export const getModuleSpecificationViewModel = (edgeAgentDesiredProperties: $EdgeAgentDesiredProperties, moduleName: string): EdgeModuleSpecificationViewModel => {
+export const getModuleSpecificationViewModel = (edgeAgentDesiredProperties: $EdgeAgentModules, moduleName: string): EdgeModuleSpecificationViewModel => {
     const moduleSpecification = edgeAgentDesiredProperties.modules[moduleName];
     if (!moduleSpecification) {
         throw new EdgeParseException([
@@ -105,7 +105,7 @@ export const ensure$EdgeAgentRuntime = (edgeAgentDesiredProperties: $EdgeAgentDe
     }
 };
 
-export const $EdgeAgentRuntimeSettingsPresent = (edgeAgentDesiredProperties: $EdgeAgentDesiredProperties): boolean => {
+export const $EdgeAgentRuntimeSettingsPresent = (edgeAgentDesiredProperties: $EdgeAgentRegistryCredentials | $EdgeAgentDesiredProperties): boolean => {
     return (edgeAgentDesiredProperties && edgeAgentDesiredProperties.runtime && edgeAgentDesiredProperties.runtime.settings) ? true : false;
 };
 
@@ -169,7 +169,7 @@ export const get$EdgeAgentLoggingOptions = (edgeAgentDesiredProperties: $EdgeAge
     return loggingOptions;
 };
 
-export const get$EdgeAgentRegistryCredentials = (edgeAgentDesiredProperties: $EdgeAgentDesiredProperties): RegistryCredentialViewModel[] => {
+export const get$EdgeAgentRegistryCredentials = (edgeAgentDesiredProperties: $EdgeAgentRegistryCredentials): RegistryCredentialViewModel[] => {
     if (!$EdgeAgentRuntimeSettingsPresent(edgeAgentDesiredProperties))  {
         return [];
     }
