@@ -7,19 +7,31 @@ import { EdgeModuleSpecification } from './edgeModuleSpecification';
 import { RegistryCredential } from './registryCredential';
 import { StringMap } from '../../../utilities/stringMap';
 
-export interface $EdgeAgentDesiredProperties {
+export interface $EdgeAgentModules {
+    modules: StringMap<EdgeModuleSpecification>;
+}
+
+export interface $EdgeAgentRegistryCredentials {
+    runtime: {
+        settings: {
+            registryCredentials?: StringMap<RegistryCredential>
+        }
+    };
+}
+
+export interface $EdgeAgentProperties {
     schemaVersion: string;
     runtime: {
         type: string;
         settings: {
             minDockerVersion?: string;
             loggingOptions?: string;
-            registryCredentials?: StringMap<RegistryCredential>
         }
     };
     systemModules: {
         edgeAgent: EdgeAgentModuleSpecification | null;
         edgeHub: EdgeHubModuleSpecification | null;
     };
-    modules: StringMap<EdgeModuleSpecification>;
 }
+
+export type $EdgeAgentDesiredProperties = $EdgeAgentModules & $EdgeAgentProperties & $EdgeAgentRegistryCredentials;

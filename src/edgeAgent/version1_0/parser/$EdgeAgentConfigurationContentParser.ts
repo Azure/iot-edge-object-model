@@ -24,20 +24,24 @@ export const get$EdgeAgentDesiredPropertiesViewModelFromConfiguration = (edgeCon
     return $edgeAgentDesiredPropertiesViewModel;
 };
 
-export const getModuleSpecificationDesiredProperties = (edgeConfigurationContent: $EdgeAgentConfigurationContent, moduleName: string): StringMap<object> | null => {
-    // tslint:disable-next-line:no-any
-    const moduleTwin = (edgeConfigurationContent as any)[moduleName];
+// tslint:disable-next-line:no-any
+export const getModuleSpecificationDesiredProperties = (edgeConfigurationContent: any, moduleName: string): StringMap<object> | null => {
+    const moduleTwin = edgeConfigurationContent[moduleName];
     if (!moduleTwin) {
         return null;
     }
 
-    const desiredProperties = moduleTwin[PATHS.DESIRED_PROPERTIES];
-    if (desiredProperties) {
-        // return with 'properties.desired' wrapper
-        return moduleTwin;
-    } else {
+    const twinSettings: StringMap<object> = {};
+    const properlyFormattedEntries = Object.keys(moduleTwin).filter(key => key.startsWith('properties.desired'));
+    if (properlyFormattedEntries.length === 0) {
         return null;
     }
+
+    properlyFormattedEntries.forEach(key => {
+        twinSettings[key] = moduleTwin[key];
+    });
+
+    return twinSettings;
 };
 
 export const ensure$EdgeAgent = (edgeConfigurationContent: $EdgeAgentConfigurationContent) => {

@@ -11,7 +11,7 @@ describe('$EdgeAGentConfigurationContentParser', () => {
         it('throws exception when $EdgeAgent is null', () => {
             const configurationContent = {
                 $edgeAgent: null
-            }
+            };
             expect(() => get$EdgeAgentDesiredPropertiesViewModelFromConfiguration(configurationContent)).toThrow();
         });
 
@@ -20,7 +20,7 @@ describe('$EdgeAGentConfigurationContentParser', () => {
                 $edgeAgent: {
                     'properties.desired': null
                 }
-            }
+            };
             expect(() => get$EdgeAgentDesiredPropertiesViewModelFromConfiguration(configurationContent)).toThrow();
         });
 
@@ -38,7 +38,7 @@ describe('$EdgeAGentConfigurationContentParser', () => {
         it('does not iterate for module specification desired properties when moduleSpecificationViewModels is undefined', () => {
             const configurationContent = sampleConfigurationContent();
             const sampleViewModel = sample$EdgeAgentDesiredPropertiesViewModel();
-            sampleViewModel.moduleSpecificationViewModels = null
+            sampleViewModel.moduleSpecificationViewModels = null;
             const parser = jest.spyOn($EdgeAgentDesirePropertiesParser, 'get$EdgeAgentDesiredPropertiesViewModel');
             parser.mockImplementation(() => {
                 return sampleViewModel;
@@ -54,10 +54,30 @@ describe('$EdgeAGentConfigurationContentParser', () => {
             configurationContent.modulesContent.moduleName1 = null;
             expect(getModuleSpecificationDesiredProperties(configurationContent.modulesContent, 'moduleName1')).toEqual(null);
         });
-        it('returns null when desireProperties not defined', () => {
+
+        it('returns null if no properly formatted entries present', () => {
             const configurationContent = sampleConfigurationContent();
-            configurationContent.modulesContent.moduleName1["properties.desired"] = null;
+            let module1 = configurationContent.modulesContent.moduleName1 as any;  // tslint:disable-line:no-any
+            module1 = {};
+
+            configurationContent.modulesContent.moduleName1 = module1;
             expect(getModuleSpecificationDesiredProperties(configurationContent.modulesContent, 'moduleName1')).toEqual(null);
+        });
+
+        it('returns properties.desired', () => {
+            const configurationContent = sampleConfigurationContent();
+            configurationContent.modulesContent.moduleName1['properties.desired'] = { hello: 'value'};
+            expect(getModuleSpecificationDesiredProperties(configurationContent.modulesContent, 'moduleName1')['properties.desired']).toEqual({hello: 'value'});
+        });
+
+        it('filters compliant desired property paths.', () => {
+            const configurationContent = sampleConfigurationContent();
+            configurationContent.modulesContent.moduleName1['properties.desired.x'] = { hello: 'value'};
+            configurationContent.modulesContent.moduleName1['y'] = { hello: 'value'}; // tslint:disable-line:no-string-literal
+
+            const result = getModuleSpecificationDesiredProperties(configurationContent.modulesContent, 'moduleName1');
+            expect(result['properties.desired.x']).toEqual({hello: 'value'});
+            expect(result['y']).toBeUndefined(); // tslint:disable-line:no-string-literal
         });
     });
 });
