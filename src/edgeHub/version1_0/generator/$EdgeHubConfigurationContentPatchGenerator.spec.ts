@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { generate$EdgeHubConfigurationContentPatch } from './$EdgeHubConfigurationContentPatchGenerator';
 
 describe('generate$EdgeHubConfigurationContentPatch', () => {

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { StringMap } from '../utilities/stringMap';
 import { EdgeConfigurationContentPatchViewModel, $EdgeAgentPatchEntries, $EdgeHubPatchEntries } from '../viewModel/edgeConfigurationContentPatchViewModel';
 import { get$EdgeAgentPatchEntries as get$EdgeAgentPatchEntries_v1 } from '../edgeAgent/version1_0/parser/$EdgeAgentConfigurationContentPatchParser';
