@@ -10,10 +10,10 @@ describe('$EdgeHubConfigurationContentGenerator', () => {
     describe('generate$EdgeHubConfigurationContent', () => {
         it ('generates hub configuration content', () => {
             const edgeHubDesiredPropertiesViewModel: $EdgeHubDesiredPropertiesViewModel = {
-                schemaVersion: "schemaVersion",
                 routes: {
                     route1: 'route1'
                 },
+                schemaVersion: 'schemaVersion',
                 storeAndForwardTimeToLive: 7200
             };
 

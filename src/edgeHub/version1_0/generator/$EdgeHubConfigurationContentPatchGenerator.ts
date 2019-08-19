@@ -6,12 +6,12 @@ import { PATHS } from '../../../utilities/constants';
 
 export const generate$EdgeHubConfigurationContentPatch = (patchEntries: $EdgeHubPatchEntries): object => {
     const patchContent = {};
-    const routePathNames = new Set<string>();
+    // const routePathNames = new Set<string>();
     const { additionalEdgeHubEntries, routePaths} = patchEntries;
 
     Object.keys(routePaths).forEach(key => {
         patchContent[`${PATHS.DESIRED_PROPERTIES}.${key}`] = routePaths[key];
-        routePathNames.add(key);
+        // routePathNames.add(key);
     });
 
     Object.keys(additionalEdgeHubEntries).forEach(key => {

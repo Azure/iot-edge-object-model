@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { EdgeModuleSpecificationViewModel } from './edgeModuleSpecificationViewModel';
 import { StringMap } from '../utilities/stringMap';
 import { RegistryCredentialViewModel } from './registryCredentialViewModel';
