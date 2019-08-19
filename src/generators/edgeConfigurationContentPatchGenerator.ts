@@ -11,6 +11,10 @@ export const generateConfigurationContentPatch = (edgeConfigurationContentPatchV
         $edgeHub : generate$EdgeHubConfigurationContentPatch_v1(edgeConfigurationContentPatchViewModel)
     };
 
+    if (!patchContent.$edgeHub || Object.keys(patchContent.$edgeHub).length === 0) {
+        delete(patchContent.$edgeHub);
+    }
+
     edgeConfigurationContentPatchViewModel.moduleSpecificationViewModels.forEach(viewModel => {
         if (viewModel.desiredProperties) {
             patchContent[viewModel.name] = viewModel.desiredProperties;

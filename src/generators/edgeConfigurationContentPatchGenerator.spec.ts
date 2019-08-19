@@ -61,4 +61,24 @@ describe('generateConfigurationContentPatch', () => {
         const result = generateConfigurationContentPatch(edgeConfigurationContentPatchViewModel);
         expect(result['helloModule']).toBeUndefined(); // tslint:disable-line:no-string-literal
     });
+
+    it('deletes $edgeHub if empty', () => {
+        const edgeConfigurationContentPatchViewModel = {
+            additionalEdgeAgentEntries: {},
+            additionalEdgeHubEntries: {},
+            moduleSpecificationViewModels: [],
+            registryCredentials: [],
+            routePaths: {}
+        };
+
+        const agentSpy = jest.spyOn($EdgeAgentConfigurationContentPatchGenerator, 'generate$EdgeAgentConfigurationContentPatch');
+        agentSpy.mockReturnValue('agentReturnValue');
+
+        const hubSpy = jest.spyOn($EdgeHubConfigurationContentPatchGenerator, 'generate$EdgeHubConfigurationContentPatch');
+        hubSpy.mockReturnValue({});
+
+        const result = generateConfigurationContentPatch(edgeConfigurationContentPatchViewModel);
+        expect(result['$edgeAgent']).toEqual('agentReturnValue'); // tslint:disable-line:no-string-literal
+        expect(result['$edgeHub']).toBeUndefined(); // tslint:disable-line:no-string-literal
+    });
 });
