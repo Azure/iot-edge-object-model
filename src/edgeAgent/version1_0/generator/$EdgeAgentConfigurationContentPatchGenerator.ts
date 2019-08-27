@@ -10,7 +10,7 @@ export const generate$EdgeAgentConfigurationContentPatch = (patchEntries: $EdgeA
     const { registryCredentials, moduleSpecificationViewModels, additionalEdgeAgentEntries } = patchEntries;
 
     registryCredentials.forEach(credential => {
-        patchContent[`${PATHS.DESIRED_PROPERTIES}.${PATHS.RUNTIME}.${PATHS.SETTINGS}.${PATHS.REGISTRY_CREDENTIALS}${credential.name}`] = {
+        patchContent[`${PATHS.DESIRED_PROPERTIES}.${PATHS.RUNTIME}.${PATHS.SETTINGS}.${PATHS.REGISTRY_CREDENTIALS}.${credential.name}`] = {
             address: credential.address,
             password: credential.password,
             username: credential.username
