@@ -27,6 +27,11 @@ describe('generate$EdgeAgentConfigurationContentPatch', () => {
         expect(result['properties.desired.runtime.settings.notRegistryCredentials']).toEqual('notRegistryCredentials');
         expect(result['properties.desired.runtime.settings.registryCredentials.reg1.username']).toEqual('reg1Username');
         expect(result['properties.desired.modules.module1']).not.toBeFalsy();
+        expect(result['properties.desired.runtime.settings.registryCredentials.name']).toEqual({
+            address: 'address',
+            password: 'password',
+            username: 'username',
+        });
     });
 });
 
