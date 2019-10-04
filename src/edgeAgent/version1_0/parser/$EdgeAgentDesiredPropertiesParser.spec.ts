@@ -26,6 +26,7 @@ describe('$EdgeAgentDesiredPropertiesParser', () => {
 
             const edgeAgentTwin = sample$EdgeAgentModuleTwin();
             const desiredProperties = edgeAgentTwin.properties.desired;
+            // tslint:disable-next-line:no-any
             const result = get$EdgeAgentDesiredPropertiesViewModel(desiredProperties as any);
 
             expect(result.edgeAgentModuleSpecificationViewModel).not.toBeNull();
@@ -62,6 +63,7 @@ describe('$EdgeAgentDesiredPropertiesParser', () => {
             expect(result.moduleSpecificationViewModels[0].status).toEqual('running');
             expect(result.moduleSpecificationViewModels[0].type).toEqual('docker');
             expect(result.moduleSpecificationViewModels[0].version).toEqual('1.0');
+            expect(result.moduleSpecificationViewModels[0].imagePullPolicy).toEqual('never');
 
             expect(result.loggingOptions).toEqual('loggingOption');
             expect(result.minDockerVersion).toEqual('v1.25');

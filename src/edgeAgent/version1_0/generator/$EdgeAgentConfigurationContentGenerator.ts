@@ -112,6 +112,11 @@ export const getBaseModuleSpecification = <T extends BaseEdgeModuleSpecification
         edgeModuleSpecification.env = envEntries;
     }
 
+    // image pull policy
+    if (baseEdgeModuleSpecificationViewModel.imagePullPolicy) {
+        edgeModuleSpecification.imagePullPolicy = baseEdgeModuleSpecificationViewModel.imagePullPolicy;
+    }
+
     return edgeModuleSpecification as T;
 };
 

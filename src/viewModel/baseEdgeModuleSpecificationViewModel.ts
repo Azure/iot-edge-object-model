@@ -8,6 +8,7 @@ export interface BaseEdgeModuleSpecificationViewModel {
     type: string;
     createOptions: string;
     image: string;
+    imagePullPolicy: string;
     version: string;
     environmentVariables: EnvironmentVariableViewModel[];
 }
