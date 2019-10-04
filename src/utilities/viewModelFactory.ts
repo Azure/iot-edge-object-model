@@ -19,6 +19,7 @@ export const new$EdgeAgentDesiredPropertiesViewModelWithDefaults = (): $EdgeAgen
             createOptions: $EDGE_AGENT.EDGE_AGENT.CREATE_OPTIONS,
             environmentVariables: [],
             image: $EDGE_AGENT.EDGE_AGENT.IMAGE,
+            imagePullPolicy: '',
             name: $EDGE_AGENT.EDGE_AGENT.NAME,
             type: $EDGE_AGENT.EDGE_AGENT.TYPE,
             version: ''
@@ -27,6 +28,7 @@ export const new$EdgeAgentDesiredPropertiesViewModelWithDefaults = (): $EdgeAgen
             createOptions: $EDGE_AGENT.EDGE_HUB.CREATE_OPTIONS,
             environmentVariables: [],
             image: $EDGE_AGENT.EDGE_HUB.IMAGE,
+            imagePullPolicy: '',
             name: $EDGE_AGENT.EDGE_HUB.NAME,
             restartPolicy: $EDGE_AGENT.EDGE_HUB.RESTART_POLICY,
             status: $EDGE_AGENT.EDGE_HUB.STATUS,

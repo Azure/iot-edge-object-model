@@ -65,6 +65,7 @@ export const getModuleSpecificationViewModel = (edgeAgentDesiredProperties: $Edg
         desiredProperties: null,
         environmentVariables: baseModuleSpecificationViewModel.environmentVariables,
         image: baseModuleSpecificationViewModel.image,
+        imagePullPolicy: baseModuleSpecificationViewModel.imagePullPolicy,
         name: baseModuleSpecificationViewModel.name,
         restartPolicy: '',
         status: '',
@@ -292,6 +293,7 @@ export const getEdgeHubSpecificationViewModel = (edgeAgentDesiredProperties: $Ed
         createOptions: baseModuleSpecificationViewModel.createOptions,
         environmentVariables: baseModuleSpecificationViewModel.environmentVariables,
         image: baseModuleSpecificationViewModel.image,
+        imagePullPolicy: baseModuleSpecificationViewModel.imagePullPolicy,
         name: baseModuleSpecificationViewModel.name,
         restartPolicy,
         status,
@@ -306,6 +308,7 @@ export const getBaseEdgeModuleSpecificationViewModel = (moduleSpecification: Bas
         createOptions: '',
         environmentVariables: [],
         image: '',
+        imagePullPolicy: '',
         name,
         type: moduleSpecification.type,
         version: ''
@@ -341,6 +344,10 @@ export const getBaseEdgeModuleSpecificationViewModel = (moduleSpecification: Bas
                 PATHS.SETTINGS,
                 PATHS.CREATE_OPTIONS].join('.'));
         }
+    }
+
+    if (moduleSpecification.imagePullPolicy) {
+        baseModuleSpecificationViewModel.imagePullPolicy = moduleSpecification.imagePullPolicy;
     }
 
     baseModuleSpecificationViewModel.createOptions = moduleSpecification.settings.createOptions ? moduleSpecification.settings.createOptions : '';

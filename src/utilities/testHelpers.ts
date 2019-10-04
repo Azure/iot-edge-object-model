@@ -19,6 +19,7 @@ export const newEdgeHubModuleSpecificationViewModel = (): EdgeHubModuleSpecifica
         createOptions: '',
         environmentVariables: [],
         image: '',
+        imagePullPolicy: '',
         name: '',
         restartPolicy: '',
         status: '',
@@ -33,6 +34,7 @@ export const newEdgeModuleSpecificationViewModel = (): EdgeModuleSpecificationVi
         desiredProperties: null,
         environmentVariables: [],
         image: '',
+        imagePullPolicy: '',
         name: '',
         restartPolicy: '',
         status: '',
@@ -119,6 +121,7 @@ export const sample$EdgeAgentDesiredPropertiesViewModel = (): $EdgeAgentDesiredP
         value: 'moduleEnv1Value'
     });
     moduleSpecification.image = 'http://moduleImage';
+    moduleSpecification.imagePullPolicy = 'never';
     moduleSpecification.name = 'moduleName1';
     moduleSpecification.restartPolicy = 'always';
     moduleSpecification.status = 'started';
@@ -324,6 +327,7 @@ export const sample$EdgeAgentModuleTwin = () => {
                                 value: 'edgeCustomModuleVar1Value'
                             }
                         },
+                        imagePullPolicy: 'never',
                         restartPolicy: 'always',
                         settings: {
                             createOptions: '{\'key\':\'value\'}',

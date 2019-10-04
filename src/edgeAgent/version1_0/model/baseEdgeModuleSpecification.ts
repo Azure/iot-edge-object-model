@@ -6,6 +6,7 @@ import { EnvironmentVariable } from './environmentVariable';
 import { StringMap } from '../../../utilities/stringMap';
 
 export interface BaseEdgeModuleSpecification {
+    imagePullPolicy?: string;
     version?: string;
     type: string;
     env?: StringMap<EnvironmentVariable>;

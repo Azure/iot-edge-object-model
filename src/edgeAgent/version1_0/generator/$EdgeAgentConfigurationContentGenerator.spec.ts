@@ -73,12 +73,13 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
     describe('getBaseModuleSpecification', () => {
         it('does not set version if it is null | undefined | ""', () => {
             const vm: BaseEdgeModuleSpecificationViewModel = {
+                createOptions: '{}',
+                environmentVariables: [],
+                image: 'image',
+                imagePullPolicy: 'imagePullPolicy',
                 name: 'sample',
                 type: 'type',
-                createOptions: '{}',
-                image: 'image',
-                version: '',
-                environmentVariables: []
+                version: ''
             };
 
             expect(getBaseModuleSpecification(vm).version).toBeUndefined();
@@ -86,12 +87,13 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
 
         it('ensures create options is non-null', () => {
             const vm: BaseEdgeModuleSpecificationViewModel = {
+                createOptions:  null,
+                environmentVariables: [],
+                image: 'image',
+                imagePullPolicy: '',
                 name: 'sample',
                 type: 'type',
-                createOptions:  null,
-                image: 'image',
                 version: '',
-                environmentVariables: []
             };
 
             expect(getBaseModuleSpecification(vm).settings.createOptions).toEqual('');
@@ -99,25 +101,27 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
 
         it('does not set env variables if they are not defined', () => {
             const vm: BaseEdgeModuleSpecificationViewModel = {
+                createOptions:  null,
+                environmentVariables: null,
+                image: 'image',
+                imagePullPolicy: '',
                 name: 'sample',
                 type: 'type',
-                createOptions:  null,
-                image: 'image',
-                version: '',
-                environmentVariables: null
+                version: ''
             };
 
             expect(getBaseModuleSpecification(vm).env).toBeUndefined();
-        })
+        });
 
         it('does not set env variables if the length is zero', () => {
             const vm: BaseEdgeModuleSpecificationViewModel = {
+                createOptions:  null,
+                environmentVariables: [],
+                image: 'image',
+                imagePullPolicy: '',
                 name: 'sample',
                 type: 'type',
-                createOptions:  null,
-                image: 'image',
-                version: '',
-                environmentVariables: []
+                version: ''
             };
 
             expect(getBaseModuleSpecification(vm).env).toBeUndefined();
@@ -125,49 +129,88 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
 
         it('sets value to "" when environment variable value is null', () => {
             const vm: BaseEdgeModuleSpecificationViewModel = {
-                name: 'sample',
-                type: 'type',
                 createOptions:  null,
-                image: 'image',
-                version: '',
                 environmentVariables: [
                     {
                         name: 'name1',
                         value: null
                     }
-                ]
+                ],
+                image: 'image',
+                imagePullPolicy: '',
+                name: 'sample',
+                type: 'type',
+                version: '',
             };
 
             expect(getBaseModuleSpecification(vm).env.name1.value).toEqual('');
+        });
+
+        it('sets imagePullPolicy when defined', () => {
+            const vm: BaseEdgeModuleSpecificationViewModel = {
+                createOptions:  null,
+                environmentVariables: [
+                    {
+                        name: 'name1',
+                        value: null
+                    }
+                ],
+                image: 'image',
+                imagePullPolicy: 'never',
+                name: 'sample',
+                type: 'type',
+                version: '',
+            };
+
+            expect(getBaseModuleSpecification(vm).imagePullPolicy).toEqual('never');
+        });
+
+        it ('leaves imagePullPolicy undefined if viewmodel value is falsy', () => {
+            const vm: BaseEdgeModuleSpecificationViewModel = {
+                createOptions:  null,
+                environmentVariables: [
+                    {
+                        name: 'name1',
+                        value: null
+                    }
+                ],
+                image: 'image',
+                imagePullPolicy: '',
+                name: 'sample',
+                type: 'type',
+                version: '',
+            };
+
+            expect(getBaseModuleSpecification(vm).imagePullPolicy).toBeUndefined();
         });
     });
 
     describe('populateRuntimeSettings', () => {
         it('does not set logging options if view model property not set', () => {
             const vm: $EdgeAgentDesiredPropertiesViewModel = {
-                schemaVersion: 'schemaVersion',
-                runtimeType: 'runtimeVersion',
-                minDockerVersion: 'minDockerVersion',
-                loggingOptions: '',
-                registyCredentials: [],
                 edgeAgentModuleSpecificationViewModel: null,
                 edgeHubModuleSpecificationViewModel: null,
-                moduleSpecificationViewModels: []
-            }
+                loggingOptions: '',
+                minDockerVersion: 'minDockerVersion',
+                moduleSpecificationViewModels: [],
+                registyCredentials: [],
+                runtimeType: 'runtimeVersion',
+                schemaVersion: 'schemaVersion'
+            };
 
             const desiredProperties: $EdgeAgentDesiredProperties = {
-                schemaVersion: "1.0",
+                modules: {},
                 runtime: {
-                    type: "type",
                     settings: {
-                    }
+                    },
+                    type: 'type'
                 },
+                schemaVersion: '1.0',
                 systemModules: {
                     edgeAgent: null,
                     edgeHub: null
-                },
-                modules: {}
-            }
+                }
+            };
 
             populateRuntimeSettings(vm, desiredProperties);
             expect(desiredProperties.runtime.settings.loggingOptions).toBeUndefined();
@@ -175,29 +218,30 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
 
         it('does not set mindDockerVersion if view model property not set', () => {
             const vm: $EdgeAgentDesiredPropertiesViewModel = {
-                schemaVersion: 'schemaVersion',
-                runtimeType: 'runtimeVersion',
-                minDockerVersion: '',
-                loggingOptions: '',
-                registyCredentials: [],
                 edgeAgentModuleSpecificationViewModel: null,
                 edgeHubModuleSpecificationViewModel: null,
-                moduleSpecificationViewModels: []
-            }
+                loggingOptions: '',
+                minDockerVersion: '',
+                moduleSpecificationViewModels: [],
+                registyCredentials: [],
+                runtimeType: 'runtimeVersion',
+                schemaVersion: 'schemaVersion',
+            };
 
             const desiredProperties: $EdgeAgentDesiredProperties = {
-                schemaVersion: "1.0",
+                modules: {},
                 runtime: {
-                    type: "type",
                     settings: {
-                    }
+                    },
+                    type: 'type',
                 },
+                schemaVersion: '1.0',
                 systemModules: {
                     edgeAgent: null,
                     edgeHub: null
                 },
-                modules: {}
-            }
+
+            };
 
             populateRuntimeSettings(vm, desiredProperties);
             expect(desiredProperties.runtime.settings.minDockerVersion).toBeUndefined();
@@ -205,29 +249,28 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
 
         it('does not set registryCredentials if view model property not set', () => {
             const vm: $EdgeAgentDesiredPropertiesViewModel = {
-                schemaVersion: 'schemaVersion',
-                runtimeType: 'runtimeVersion',
-                minDockerVersion: '',
-                loggingOptions: '',
-                registyCredentials: [],
                 edgeAgentModuleSpecificationViewModel: null,
                 edgeHubModuleSpecificationViewModel: null,
-                moduleSpecificationViewModels: []
-            }
+                loggingOptions: '',
+                minDockerVersion: '',
+                moduleSpecificationViewModels: [],
+                registyCredentials: [],
+                runtimeType: 'runtimeVersion',
+                schemaVersion: 'schemaVersion',
+            };
 
             const desiredProperties: $EdgeAgentDesiredProperties = {
-                schemaVersion: "1.0",
+                modules: {},
                 runtime: {
-                    type: "type",
-                    settings: {
-                    }
+                    settings: { },
+                    type: 'type'
                 },
+                schemaVersion: '1.0',
                 systemModules: {
                     edgeAgent: null,
                     edgeHub: null
                 },
-                modules: {}
-            }
+            };
 
             populateRuntimeSettings(vm, desiredProperties);
             expect(desiredProperties.runtime.settings.registryCredentials).toBeUndefined();
