@@ -3,15 +3,29 @@
 
 import { $EdgeHubPatchEntries } from '../../../viewModel/edgeConfigurationContentPatchViewModel';
 import { PATHS } from '../../../utilities/constants';
+import { RoutePathType } from '../../../viewModel/routeViewModel';
 
 export const generate$EdgeHubConfigurationContentPatch = (patchEntries: $EdgeHubPatchEntries): object => {
     const patchContent = {};
-    // const routePathNames = new Set<string>();
-    const { additionalEdgeHubEntries, routePaths} = patchEntries;
+    const { additionalEdgeHubEntries, routeViewModels } = patchEntries;
 
-    Object.keys(routePaths).forEach(key => {
-        patchContent[`${PATHS.DESIRED_PROPERTIES}.${key}`] = routePaths[key];
-        // routePathNames.add(key);
+    routeViewModels.forEach(routeViewModel => {
+        const routePrefix = `${PATHS.DESIRED_PROPERTIES}.${PATHS.ROUTES}`;
+        const routeValue = (routeViewModel.priority || routeViewModel.timeToLiveSecs) ? {
+            priority: routeViewModel.priority,
+            route: routeViewModel.value,
+            timeToLiveSecs: routeViewModel.timeToLiveSecs,
+        } : routeViewModel.value;
+
+        if (routeViewModel.routePathType === RoutePathType.memberOfRoutesPath) {
+            if (!patchContent[routePrefix]) {
+                patchContent[routePrefix] = {};
+            }
+
+            patchContent[routePrefix][routeViewModel.name] = routeValue;
+        } else {
+            patchContent[`${routePrefix}.${routeViewModel.name}`] = routeValue;
+        }
     });
 
     Object.keys(additionalEdgeHubEntries).forEach(key => {

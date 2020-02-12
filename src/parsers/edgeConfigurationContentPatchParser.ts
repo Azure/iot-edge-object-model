@@ -16,7 +16,7 @@ export const toEdgeConfigurationContentPatchViewModel = (modulesContent: StringM
         additionalEdgeHubEntries: edgeHubEntries.additionalEdgeHubEntries,
         moduleSpecificationViewModels: edgeAgentEntries.moduleSpecificationViewModels,
         registryCredentials: edgeAgentEntries.registryCredentials,
-        routePaths: edgeHubEntries.routePaths
+        routeViewModels: edgeHubEntries.routeViewModels
     };
 
     return viewModel;

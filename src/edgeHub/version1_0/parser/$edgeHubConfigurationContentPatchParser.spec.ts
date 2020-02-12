@@ -2,19 +2,20 @@
 // Licensed under the MIT License.
 
 import { get$EdgeHubPatchEntries, filterRoutePaths } from './$EdgeHubConfigurationContentPatchParser';
+import { RoutePathType } from '../../../viewModel/routeViewModel';
 
 describe('get$EdgeHubPatchEntries', () => {
     it('returns specified object given a falsy value', () => {
         expect(get$EdgeHubPatchEntries(undefined)).toEqual({
             additionalEdgeHubEntries: {},
-            routePaths: {},
+            routeViewModels: [],
         });
     });
 
     it('returns specified object given empty object', () => {
         expect(get$EdgeHubPatchEntries({})).toEqual({
             additionalEdgeHubEntries: {},
-            routePaths: {},
+            routeViewModels: [],
         });
     });
 
@@ -22,15 +23,29 @@ describe('get$EdgeHubPatchEntries', () => {
         const $edgeHub = {
             'properties.desired.a': 'a',
             'properties.desired.routes': { myRoutes: 'route'},
+            'properties.desired.routes.y': 'value',
+            'properties.desired.routes.y.z': 'subRoute',
             'properties.desired.y.z.alpha': 'alpha'
         };
 
         const result = get$EdgeHubPatchEntries($edgeHub);
-        expect(Object.keys(result.additionalEdgeHubEntries)).toHaveLength(2); // tslint:disable-line:no-magic-numbers
+        expect(Object.keys(result.additionalEdgeHubEntries)).toHaveLength(3); // tslint:disable-line:no-magic-numbers
         expect(result.additionalEdgeHubEntries['properties.desired.a']).toEqual('a');
         expect(result.additionalEdgeHubEntries['properties.desired.y.z.alpha']).toEqual('alpha');
+        expect(result.additionalEdgeHubEntries['properties.desired.routes.y.z']).toEqual('subRoute');
 
-        expect(result.routePaths).toEqual({ routes: { myRoutes: 'route'}});
+        expect(result.routeViewModels).toEqual([
+            {
+                name: 'myRoutes',
+                routePathType: RoutePathType.memberOfRoutesPath,
+                value: 'route'
+            },
+            {
+                name: 'y',
+                routePathType: RoutePathType.standaloneRoutePath,
+                value: 'value'
+            }
+        ]);
     });
 });
 
@@ -39,7 +54,7 @@ describe('filterRoutePaths', () => {
         const payload = {
             $edgeEntries: {
                 additionalEdgeHubEntries: {},
-                routePaths: {}
+                routeViewModels: []
             },
             $edgeObject: null,
             key: 'props.something',
@@ -53,7 +68,7 @@ describe('filterRoutePaths', () => {
         const payload = {
             $edgeEntries: {
                 additionalEdgeHubEntries: {},
-                routePaths: {}
+                routeViewModels: []
             },
             $edgeObject: null,
             key: 'properties.desiresd.notRoutes',
@@ -67,7 +82,7 @@ describe('filterRoutePaths', () => {
         const payload = {
             $edgeEntries: {
                 additionalEdgeHubEntries: {},
-                routePaths: {}
+                routeViewModels: []
             },
             $edgeObject: {
                 'properties.desired.routes': { myRoute: 'my route'}
@@ -77,16 +92,20 @@ describe('filterRoutePaths', () => {
         };
 
         expect(filterRoutePaths(payload)).toEqual(true);
-        expect(payload.$edgeEntries.routePaths).toEqual({
-           routes: { myRoute: 'my route' }
-        });
+        expect(payload.$edgeEntries.routeViewModels).toEqual([
+            {
+                name: 'myRoute',
+                routePathType: RoutePathType.memberOfRoutesPath,
+                value: 'my route'
+            }
+        ]);
     });
 
     it('returns true when route path defined and amends the route path', () => {
         const payload = {
             $edgeEntries: {
                 additionalEdgeHubEntries: {},
-                routePaths: {}
+                routeViewModels: []
             },
             $edgeObject: {
                 'properties.desired.routes.myRoute': 'my route'
@@ -96,16 +115,20 @@ describe('filterRoutePaths', () => {
         };
 
         expect(filterRoutePaths(payload)).toEqual(true);
-        expect(payload.$edgeEntries.routePaths).toEqual({
-           'routes.myRoute': 'my route'
-        });
+        expect(payload.$edgeEntries.routeViewModels).toEqual([
+            {
+                name: 'myRoute',
+                routePathType: RoutePathType.standaloneRoutePath,
+                value: 'my route'
+            }
+        ]);
     });
 
-    it('returns true when route path depth exceeded', () => {
+    it('returns false when route path depth exceeded', () => {
         const payload = {
             $edgeEntries: {
                 additionalEdgeHubEntries: {},
-                routePaths: {}
+                routeViewModels: []
             },
             $edgeObject: {
                 'properties.desired.routes.myRoute.x': 'my route'
@@ -114,9 +137,7 @@ describe('filterRoutePaths', () => {
             pathArray: ['properties', 'desired', 'routes', 'myRoute', 'x']
         };
 
-        expect(filterRoutePaths(payload)).toEqual(true);
-        expect(payload.$edgeEntries.routePaths).toEqual({
-            'routes.myRoute.x': 'my route'
-         });
+        expect(filterRoutePaths(payload)).toEqual(false);
+        expect(payload.$edgeEntries.routeViewModels).toEqual([]);
     });
 });

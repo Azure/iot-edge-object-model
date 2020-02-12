@@ -48,7 +48,7 @@ export const new$EdgeAgentDesiredPropertiesViewModelWithDefaults = (): $EdgeAgen
 
 export const new$EdgeHubDesiredPropertiesViewModelWithDefaults = (): $EdgeHubDesiredPropertiesViewModel => {
     return {
-        routes: $EDGE_HUB.ROUTES,
+        routeViewModels: $EDGE_HUB.ROUTES,
         schemaVersion: $EDGE_HUB.SCHEMA_VERSION_1_0,
         storeAndForwardTimeToLive: $EDGE_HUB.STORE_AND_FORWARD_TIME_TO_LIVE
     };

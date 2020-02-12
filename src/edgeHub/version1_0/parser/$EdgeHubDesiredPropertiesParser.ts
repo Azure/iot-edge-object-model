@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { RouteViewModel } from '../../../viewModel/routeViewModel';
+import { RouteViewModel, RoutePathType } from '../../../viewModel/routeViewModel';
 import { $EdgeHubDesiredProperties } from '../model/$EdgeHubDesiredProperties';
 import { $EdgeHubDesiredPropertiesViewModel } from '../../../viewModel/$EdgeHubDesiredPropertiesViewModel';
 import { EdgeParseException } from '../../../errors/edgeParseException';
@@ -9,7 +9,7 @@ import { Route } from '../model/route';
 
 export const get$EdgeHubDesiredPropertiesViewModel = (edgeHubDesiredProperties: $EdgeHubDesiredProperties): $EdgeHubDesiredPropertiesViewModel => {
     const $edgeHubDesiredPropertiesViewModel =  {
-        routes: get$EdgeHubRoutes(edgeHubDesiredProperties),
+        routeViewModels: get$EdgeHubRoutes(edgeHubDesiredProperties),
         schemaVersion: get$EdgeHubSchemaVersion(edgeHubDesiredProperties),
         storeAndForwardTimeToLive: get$EdgeHubStoreAndForwardTimeToLive(edgeHubDesiredProperties)
     };
@@ -41,20 +41,7 @@ export const get$EdgeHubRoutes = (edgeHubDesiredProperties: $EdgeHubDesiredPrope
     const routeObject = edgeHubDesiredProperties.routes;
     Object.keys(edgeHubDesiredProperties.routes).forEach(key => {
         const routeValue: string | Route = routeObject[key];
-        if (typeof routeValue === 'string') {
-            routeViewModels.push({
-                name: key,
-                value: routeValue
-            });
-
-        } else {
-            routeViewModels.push({
-                name: key,
-                priority: routeValue.priority,
-                timeToLiveSecs: routeValue.timeToLiveSecs,
-                value: routeValue.route || '',
-            });
-        }
+        routeViewModels.push(getRouteViewModel(key, routeValue));
     });
 
     return routeViewModels;
@@ -78,4 +65,23 @@ export const get$EdgeHubStoreAndForwardTimeToLive = (edgeHubDesiredProperties: $
     }
 
     return timeToLiveSecs;
+};
+
+export const getRouteViewModel = (key: string, routeValue: string | Route, routePathType?: RoutePathType): RouteViewModel => {
+    if (!routeValue || typeof routeValue === 'string') {
+        return {
+            name: key,
+            routePathType,
+            value: routeValue || ''
+        };
+
+    } else {
+        return {
+            name: key,
+            priority: routeValue.priority,
+            routePathType,
+            timeToLiveSecs: routeValue.timeToLiveSecs,
+            value: routeValue.route || '',
+        };
+    }
 };

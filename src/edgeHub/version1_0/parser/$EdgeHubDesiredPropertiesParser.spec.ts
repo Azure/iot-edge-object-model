@@ -3,7 +3,8 @@
 
 import 'jest';
 import { sampleConfigurationContent } from '../../../utilities/testHelpers';
-import { get$EdgeHubDesiredPropertiesViewModel, get$EdgeHubRoutes } from './$EdgeHubDesiredPropertiesParser';
+import { get$EdgeHubDesiredPropertiesViewModel, getRouteViewModel } from './$EdgeHubDesiredPropertiesParser';
+import { RoutePathType } from '../../../viewModel/routeViewModel';
 
 describe('$EdgeHubDesiredPropertiesParser', () => {
     describe('get$EdgeHubDesiredPropertiesViewModel', () => {
@@ -14,9 +15,10 @@ describe('$EdgeHubDesiredPropertiesParser', () => {
 
             expect(edgeHubViewModel.schemaVersion).toEqual('1.0');
             expect(edgeHubViewModel.storeAndForwardTimeToLive).toEqual(0);
-            expect(edgeHubViewModel.routes).toEqual([
+            expect(edgeHubViewModel.routeViewModels).toEqual([
                 {
                     name: 'route',
+                    routePathType: undefined,
                     value: 'FROM /* INTO $upstream'
                 }
             ]);
@@ -51,53 +53,38 @@ describe('$EdgeHubDesiredPropertiesParser', () => {
         });
     });
 
-    describe('get$EdgeHubRoutes', () => {
+    describe('getRouteViewModel', () => {
         it('returns RouteViewModel when route is string', () => {
-            const routes = {
-                route1: 'routeValue1',
-                route2: 'routeValue2'
-            };
-
-            const content = sampleConfigurationContent();
-            const edgeHubDesiredProperties = content.modulesContent.$edgeHub['properties.desired'];
-            // tslint:disable-next-line:no-any
-            edgeHubDesiredProperties.routes = routes as any;
-
-            expect(get$EdgeHubRoutes(edgeHubDesiredProperties)).toEqual([
-                {
-                    name: 'route1',
-                    value: 'routeValue1'
-                },
-                {
-                    name: 'route2',
-                    value: 'routeValue2'
-                },
-            ]);
+            expect(getRouteViewModel('route1', 'routeValue1')).toEqual({
+                name: 'route1',
+                routePathType: undefined,
+                value: 'routeValue1'
+            });
         });
 
         it('returns RouteViewModel when route is data structure', () => {
-            const routes = {
-                route1: { route: 'routeValue1' },
-                route2: { route: 'routeValue2', priority: 1, timeToLiveSecs: 200 }
-            };
+            expect(getRouteViewModel('route1', { route: 'routeValue1', priority: 1, timeToLiveSecs: 200 })).toEqual({
+                name: 'route1',
+                priority: 1,
+                routePathType: undefined,
+                timeToLiveSecs: 200,
+                value: 'routeValue1'
+            });
+        });
 
-            const content = sampleConfigurationContent();
-            const edgeHubDesiredProperties = content.modulesContent.$edgeHub['properties.desired'];
-            // tslint:disable-next-line:no-any
-            edgeHubDesiredProperties.routes = routes as any;
+        it('returns RouteViewModel when route is data structure with missing properties', () => {
+            expect(getRouteViewModel('route1', {})).toEqual({
+                name: 'route1',
+                value: ''
+            });
+        });
 
-            expect(get$EdgeHubRoutes(edgeHubDesiredProperties)).toEqual([
-                {
-                    name: 'route1',
-                    value: 'routeValue1'
-                },
-                {
-                    name: 'route2',
-                    priority: 1,
-                    timeToLiveSecs: 200,
-                    value: 'routeValue2'
-                },
-            ]);
+        it('returns RouteViewModel with layeredAtRoot value set', () => {
+            expect(getRouteViewModel('route1', {}, RoutePathType.memberOfRoutesPath)).toEqual({
+                name: 'route1',
+                routePathType: RoutePathType.memberOfRoutesPath,
+                value: ''
+            });
         });
     });
 });

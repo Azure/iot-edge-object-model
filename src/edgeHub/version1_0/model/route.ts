@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export interface Route {
-    route: string;
-    priority: number;
-    timeToLiveSecs: number;
+    route?: string;
+    priority?: number;
+    timeToLiveSecs?: number;
 }

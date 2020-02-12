@@ -4,6 +4,6 @@ import { RouteViewModel } from './routeViewModel';
 
 export interface $EdgeHubDesiredPropertiesViewModel {
     schemaVersion: string;
-    routes: RouteViewModel[];
+    routeViewModels: RouteViewModel[];
     storeAndForwardTimeToLive: number | null;
 }

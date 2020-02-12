@@ -4,10 +4,11 @@
 import { $EdgeHubDesiredPropertiesViewModel } from '../../../viewModel/$EdgeHubDesiredPropertiesViewModel';
 import { $EdgeHubDesiredProperties } from '../model/$EdgeHubDesiredProperties';
 import { $EDGE_HUB } from '../../../utilities/constants';
+import { RouteViewModel } from '../../../viewModel/routeViewModel';
 
 export const generate$EdgeHubConfigurationContent = (edgeHubDesiredPropertiesViewModel: $EdgeHubDesiredPropertiesViewModel): object => {
     const edgeHubDesiredProperties: $EdgeHubDesiredProperties = {
-        routes: edgeHubDesiredPropertiesViewModel.routes,
+        routes: generateRoutesObject(edgeHubDesiredPropertiesViewModel.routeViewModels),
         schemaVersion: $EDGE_HUB.SCHEMA_VERSION_1_0,
         storeAndForwardConfiguration: {
             timeToLiveSecs: edgeHubDesiredPropertiesViewModel.storeAndForwardTimeToLive
@@ -15,4 +16,19 @@ export const generate$EdgeHubConfigurationContent = (edgeHubDesiredPropertiesVie
     };
 
     return edgeHubDesiredProperties;
+};
+
+export const generateRoutesObject = (routeViewModels: RouteViewModel[]): object => {
+    const routes = {};
+    routeViewModels.forEach(routeViewModel => {
+        const routeValue = (routeViewModel.priority || routeViewModel.timeToLiveSecs) ? {
+            priority: routeViewModel.priority,
+            route: routeViewModel.value,
+            timeToLiveSecs: routeViewModel.timeToLiveSecs,
+        } : routeViewModel.value;
+
+        routes[routeViewModel.name] = routeValue;
+    });
+
+    return routes;
 };
