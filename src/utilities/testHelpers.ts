@@ -61,7 +61,10 @@ export const sampleEdgeModuleTwinsViewModel = (): $EdgeModuleTwinsViewModel => {
 
 export const sample$EdgeHubDesiredPropertiesViewModel = (): $EdgeHubDesiredPropertiesViewModel => {
     return {
-        routes: { route: 'route1' },
+        routes: [{
+            name: 'routeName',
+            value: 'routeValue'
+        }],
         schemaVersion: '1.0',
         storeAndForwardTimeToLive: 2
     };

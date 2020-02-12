@@ -1,10 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
+import { RouteViewModel } from '../../../viewModel/routeViewModel';
 import { $EdgeHubDesiredProperties } from '../model/$EdgeHubDesiredProperties';
 import { $EdgeHubDesiredPropertiesViewModel } from '../../../viewModel/$EdgeHubDesiredPropertiesViewModel';
 import { EdgeParseException } from '../../../errors/edgeParseException';
 import { PATHS } from '../../../utilities/constants';
+import { Route } from '../model/route';
 
 export const get$EdgeHubDesiredPropertiesViewModel = (edgeHubDesiredProperties: $EdgeHubDesiredProperties): $EdgeHubDesiredPropertiesViewModel => {
     const $edgeHubDesiredPropertiesViewModel =  {
@@ -28,7 +29,7 @@ export const get$EdgeHubSchemaVersion = (edgeHubDesiredProperties: $EdgeHubDesir
     return schemaVersion;
 };
 
-export const get$EdgeHubRoutes = (edgeHubDesiredProperties: $EdgeHubDesiredProperties): object => {
+export const get$EdgeHubRoutes = (edgeHubDesiredProperties: $EdgeHubDesiredProperties): RouteViewModel[] => {
     if (!edgeHubDesiredProperties.routes) {
         throw new EdgeParseException([
             PATHS.$EDGE_HUB,
@@ -36,7 +37,27 @@ export const get$EdgeHubRoutes = (edgeHubDesiredProperties: $EdgeHubDesiredPrope
             PATHS.ROUTES].join('.'));
     }
 
-    return edgeHubDesiredProperties.routes;
+    const routeViewModels: RouteViewModel[] = [];
+    const routeObject = edgeHubDesiredProperties.routes;
+    Object.keys(edgeHubDesiredProperties.routes).forEach(key => {
+        const routeValue: string | Route = routeObject[key];
+        if (typeof routeValue === 'string') {
+            routeViewModels.push({
+                name: key,
+                value: routeValue
+            });
+
+        } else {
+            routeViewModels.push({
+                name: key,
+                priority: routeValue.priority,
+                timeToLiveSecs: routeValue.timeToLiveSecs,
+                value: routeValue.route || '',
+            });
+        }
+    });
+
+    return routeViewModels;
 };
 
 export const get$EdgeHubStoreAndForwardTimeToLive = (edgeHubDesiredProperties: $EdgeHubDesiredProperties): number => {
