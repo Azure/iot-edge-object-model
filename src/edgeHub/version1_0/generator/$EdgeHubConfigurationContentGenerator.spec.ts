@@ -17,7 +17,9 @@ describe('$EdgeHubConfigurationContentGenerator', () => {
                     },
                     {
                         name: 'route2',
-                        timeToLiveSecs: 100,
+                        routeOptions: {
+                            timeToLiveSecs: 100
+                        },
                         value: 'route2Value'
                     },
                 ],

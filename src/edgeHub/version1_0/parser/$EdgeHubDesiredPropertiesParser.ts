@@ -78,9 +78,11 @@ export const getRouteViewModel = (key: string, routeValue: string | Route, route
     } else {
         return {
             name: key,
-            priority: routeValue.priority,
+            routeOptions: {
+                priority: routeValue.priority,
+                timeToLiveSecs: routeValue.timeToLiveSecs,
+            },
             routePathType,
-            timeToLiveSecs: routeValue.timeToLiveSecs,
             value: routeValue.route || '',
         };
     }

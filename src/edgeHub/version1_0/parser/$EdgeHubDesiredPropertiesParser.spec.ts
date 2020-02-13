@@ -65,9 +65,11 @@ describe('$EdgeHubDesiredPropertiesParser', () => {
         it('returns RouteViewModel when route is data structure', () => {
             expect(getRouteViewModel('route1', { route: 'routeValue1', priority: 1, timeToLiveSecs: 200 })).toEqual({
                 name: 'route1',
-                priority: 1,
+                routeOptions: {
+                    priority: 1,
+                    timeToLiveSecs: 200
+                },
                 routePathType: undefined,
-                timeToLiveSecs: 200,
                 value: 'routeValue1'
             });
         });
@@ -75,13 +77,21 @@ describe('$EdgeHubDesiredPropertiesParser', () => {
         it('returns RouteViewModel when route is data structure with missing properties', () => {
             expect(getRouteViewModel('route1', {})).toEqual({
                 name: 'route1',
+                routeOptions: {
+                    priority: undefined,
+                    timeToLiveSecs: undefined
+                },
                 value: ''
             });
         });
 
-        it('returns RouteViewModel with layeredAtRoot value set', () => {
+        it('returns RouteViewModel with RoutePathType value set', () => {
             expect(getRouteViewModel('route1', {}, RoutePathType.memberOfRoutesPath)).toEqual({
                 name: 'route1',
+                routeOptions: {
+                    priority: undefined,
+                    timeToLiveSecs: undefined
+                },
                 routePathType: RoutePathType.memberOfRoutesPath,
                 value: ''
             });

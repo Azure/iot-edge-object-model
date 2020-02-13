@@ -20,9 +20,11 @@ describe('generate$EdgeHubConfigurationContentPatch', () => {
                 },
                 {
                     name: 'y',
-                    priority: 100,
+                    routeOptions: {
+                        priority: 100,
+                        timeToLiveSecs: 10,
+                    },
                     routePathType: RoutePathType.memberOfRoutesPath,
-                    timeToLiveSecs: 10,
                     value: 'routey'
                 },
                 {
