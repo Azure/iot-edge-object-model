@@ -27,11 +27,34 @@ export const generate$EdgeHubConfigurationContentPatch = (patchEntries: $EdgeHub
         }
     });
 
+    const routeNames = new Set(routeViewModels.map(s => s.name));
     Object.keys(additionalEdgeHubEntries).forEach(key => {
-        if (key !== PATHS.DESIRED_PROPERTIES) {
+        if (!conflictWithRoute(key, routeNames)) {
             patchContent[key] = additionalEdgeHubEntries[key];
         }
     });
 
     return patchContent;
+};
+
+export const conflictWithRoute = (key: string, routeNames: Set<string>): boolean => {
+    const customRouteDepth = 4;
+    if (routeNames.size === 0) {
+        return false;
+    }
+
+    if (key === PATHS.DESIRED_PROPERTIES) {
+        return true;
+    }
+
+    if (key.startsWith(`${PATHS.DESIRED_PROPERTIES}.${PATHS.ROUTES}`)) {
+        const pathArray = key.split('.');
+
+        if (pathArray.length > customRouteDepth &&
+            routeNames.has(pathArray[customRouteDepth - 1])) {
+            return true;
+        }
+    }
+
+    return false;
 };
