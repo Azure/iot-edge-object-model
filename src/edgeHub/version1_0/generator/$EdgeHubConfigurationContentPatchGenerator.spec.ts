@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { generate$EdgeHubConfigurationContentPatch, conflictWithRoute } from './$EdgeHubConfigurationContentPatchGenerator';
+import { generate$EdgeHubConfigurationContentPatch, conflictWithRouteEntry } from './$EdgeHubConfigurationContentPatchGenerator';
 import { RoutePathType } from '../../../viewModel/routeViewModel';
 
 describe('generate$EdgeHubConfigurationContentPatch', () => {
@@ -52,24 +52,24 @@ describe('generate$EdgeHubConfigurationContentPatch', () => {
 
 describe('conflictWithRoute', () => {
     it('returns false if set is empty', () => {
-        expect(conflictWithRoute('', new Set<string>())).toEqual(false);
+        expect(conflictWithRouteEntry('', new Set<string>())).toEqual(false);
     });
 
     it('returns true if key is properties.desired', () => {
         const routeNames = new Set(['name']);
         const additionalEntry = 'properties.desired';
-        expect(conflictWithRoute(additionalEntry, routeNames)).toEqual(true);
+        expect(conflictWithRouteEntry(additionalEntry, routeNames)).toEqual(true);
     });
 
     it('returns true if key conflicts with route name', () => {
         const routeNames = new Set(['name']);
         const additionalEntry = 'properties.desired.routes.name.x';
-        expect(conflictWithRoute(additionalEntry, routeNames)).toEqual(true);
+        expect(conflictWithRouteEntry(additionalEntry, routeNames)).toEqual(true);
     });
 
     it('returns false if key does not conflict with route name', () => {
         const routeNames = new Set(['name']);
         const additionalEntry = 'properties.desired.routes.notName.x';
-        expect(conflictWithRoute(additionalEntry, routeNames)).toEqual(false);
+        expect(conflictWithRouteEntry(additionalEntry, routeNames)).toEqual(false);
     });
 });

@@ -29,7 +29,7 @@ export const generate$EdgeHubConfigurationContentPatch = (patchEntries: $EdgeHub
 
     const routeNames = new Set(routeViewModels.map(s => s.name));
     Object.keys(additionalEdgeHubEntries).forEach(key => {
-        if (!conflictWithRoute(key, routeNames)) {
+        if (!conflictWithRouteEntry(key, routeNames)) {
             patchContent[key] = additionalEdgeHubEntries[key];
         }
     });
@@ -37,7 +37,7 @@ export const generate$EdgeHubConfigurationContentPatch = (patchEntries: $EdgeHub
     return patchContent;
 };
 
-export const conflictWithRoute = (key: string, routeNames: Set<string>): boolean => {
+export const conflictWithRouteEntry = (key: string, routeNames: Set<string>): boolean => {
     const customRouteDepth = 4;
     if (routeNames.size === 0) {
         return false;
