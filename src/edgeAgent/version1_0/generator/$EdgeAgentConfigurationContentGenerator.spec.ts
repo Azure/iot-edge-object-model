@@ -205,7 +205,7 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
                     },
                     type: 'type'
                 },
-                schemaVersion: '1.0',
+                schemaVersion: 'schemaVersion',
                 systemModules: {
                     edgeAgent: null,
                     edgeHub: null
@@ -235,7 +235,7 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
                     },
                     type: 'type',
                 },
-                schemaVersion: '1.0',
+                schemaVersion: 'schemaVersion',
                 systemModules: {
                     edgeAgent: null,
                     edgeHub: null
@@ -265,7 +265,7 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
                     settings: { },
                     type: 'type'
                 },
-                schemaVersion: '1.0',
+                schemaVersion: 'schemaVersion',
                 systemModules: {
                     edgeAgent: null,
                     edgeHub: null

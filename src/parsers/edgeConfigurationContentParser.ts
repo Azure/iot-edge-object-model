@@ -10,6 +10,7 @@ import { EdgeParseException } from '../errors/edgeParseException';
 import { EdgeUnsupportedSchemaException } from '../errors/edgeUnsupportedSchemaException';
 import { $EdgeAgentDesiredPropertiesViewModel } from '../viewModel/$EdgeAgentDesiredPropertiesViewModel';
 import { $EdgeHubDesiredPropertiesViewModel } from '../viewModel/$EdgeHubDesiredPropertiesViewModel';
+import { getVersion } from '../utilities/versionUtilities';
 import { PATHS } from '../utilities/constants';
 
 export interface $EdgeAgentConfigurationContent {
@@ -47,11 +48,12 @@ export const get$EdgeAgentDesiredPropertiesViewModel = (edgeConfigurationContent
                 PATHS.SCHEMA_VERSION].join('.'));
     }
 
-    const schemaVersion = edgeConfigurationContent.$edgeAgent['properties.desired'].schemaVersion;
-    if (schemaVersion === '1.0') {
+    const schemaVersionString = edgeConfigurationContent.$edgeAgent['properties.desired'].schemaVersion || '';
+    const schemaVersion = getVersion(schemaVersionString);
+    if (schemaVersion.major === 1) {
         return get$EdgeAgentDesiredPropertiesViewModelFromConfiguration(edgeConfigurationContent as $EdgeAgentConfigurationContent1_0);
     } else {
-        throw new EdgeUnsupportedSchemaException(schemaVersion);
+        throw new EdgeUnsupportedSchemaException(schemaVersionString);
     }
 };
 
@@ -65,10 +67,11 @@ export const get$EdgeHubDesiredPropertiesViewModel = (edgeConfigurationContent: 
                 PATHS.SCHEMA_VERSION].join('.'));
     }
 
-    const schemaVersion = edgeConfigurationContent.$edgeHub['properties.desired'].schemaVersion;
-    if (schemaVersion === '1.0') {
+    const schemaVersionString = edgeConfigurationContent.$edgeHub['properties.desired'].schemaVersion || '';
+    const schemaVersion = getVersion(schemaVersionString);
+    if (schemaVersion.major === 1) {
         return get$EdgeHubDesiredPropertiesViewModelFromConfiguration(edgeConfigurationContent as $EdgeHubConfigurationContent1_0);
     } else {
-        throw new EdgeUnsupportedSchemaException(schemaVersion);
+        throw new EdgeUnsupportedSchemaException(schemaVersionString);
     }
 };

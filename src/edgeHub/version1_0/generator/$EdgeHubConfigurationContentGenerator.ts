@@ -3,13 +3,12 @@
 
 import { $EdgeHubDesiredPropertiesViewModel } from '../../../viewModel/$EdgeHubDesiredPropertiesViewModel';
 import { $EdgeHubDesiredProperties } from '../model/$EdgeHubDesiredProperties';
-import { $EDGE_HUB } from '../../../utilities/constants';
 import { RouteViewModel } from '../../../viewModel/routeViewModel';
 
 export const generate$EdgeHubConfigurationContent = (edgeHubDesiredPropertiesViewModel: $EdgeHubDesiredPropertiesViewModel): object => {
     const edgeHubDesiredProperties: $EdgeHubDesiredProperties = {
         routes: generateRoutesObject(edgeHubDesiredPropertiesViewModel.routeViewModels),
-        schemaVersion: $EDGE_HUB.SCHEMA_VERSION_1_0,
+        schemaVersion: edgeHubDesiredPropertiesViewModel.schemaVersion,
         storeAndForwardConfiguration: {
             timeToLiveSecs: edgeHubDesiredPropertiesViewModel.storeAndForwardTimeToLive
         }

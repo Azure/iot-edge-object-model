@@ -6,6 +6,7 @@ import { $EdgeHubModuleTwinViewModel } from '../viewModel/$EdgeHubModuleTwinView
 import { $EdgeHubDesiredPropertiesViewModel } from '../viewModel/$EdgeHubDesiredPropertiesViewModel';
 import { $EdgeHubReportedPropertiesViewModel } from '../viewModel/$EdgeHubReportedPropertiesViewModel';
 import { EdgeUnsupportedSchemaException } from '../errors/edgeUnsupportedSchemaException';
+import { getVersion } from '../utilities/versionUtilities';
 
 export interface $EdgeHubModuleTwin {
     moduleId: string;
@@ -36,13 +37,15 @@ export const get$EdgeHubDesiredPropertiesViewModel = (edgeHubModuleTwin: $EdgeHu
             return null;
     }
 
-    const schemaVersion = edgeHubModuleTwin.properties.desired.schemaVersion;
-    if (schemaVersion === '1.0') {
+    const schemaVersionString = edgeHubModuleTwin.properties.desired.schemaVersion || '';
+    const schemaVersion = getVersion(schemaVersionString);
+
+    if (schemaVersion.major === 1) {
         // tslint:disable-next-line:no-any
         return get$EdgeHubDesiredPropertiesViewModelFromTwin(edgeHubModuleTwin as any);
     }
     else {
-        throw new EdgeUnsupportedSchemaException(schemaVersion);
+        throw new EdgeUnsupportedSchemaException(schemaVersionString);
     }
 };
 
@@ -53,12 +56,14 @@ export const get$EdgeHubReportedPropertiesViewModel = (edgeHubModuleTwin: $EdgeH
             return null;
     }
 
-    const schemaVersion = edgeHubModuleTwin.properties.reported.schemaVersion;
-    if (schemaVersion === '1.0') {
+    const schemaVersionString = edgeHubModuleTwin.properties.reported.schemaVersion;
+    const schemaVersion = getVersion(schemaVersionString);
+
+    if (schemaVersion.major === 1) {
         // tslint:disable-next-line:no-any
         return get$EdgeHubReportedPropertiesViewModelFromTwin(edgeHubModuleTwin as any);
     }
     else {
-        throw new EdgeUnsupportedSchemaException(schemaVersion);
+        throw new EdgeUnsupportedSchemaException(schemaVersionString);
     }
 };

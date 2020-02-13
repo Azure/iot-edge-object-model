@@ -7,6 +7,7 @@ import { $EdgeAgentReportedPropertiesViewModel } from '../viewModel/$EdgeAgentRe
 import { $EdgeAgentDesiredPropertiesViewModel } from '../viewModel/$EdgeAgentDesiredPropertiesViewModel';
 import { ConfigurationViewModel } from '../viewModel/configurationViewModel';
 import { EdgeUnsupportedSchemaException } from '../errors/edgeUnsupportedSchemaException';
+import { getVersion } from '../utilities/versionUtilities';
 import { StringMap } from '../utilities/stringMap';
 
 export interface $EdgeAgentModuleTwin {
@@ -40,12 +41,14 @@ export const get$EdgeAgentDesiredPropertiesViewModel = (edgeAgentModuleTwin: $Ed
             return null;
     }
 
-    const schemaVersion: string = edgeAgentModuleTwin.properties.desired.schemaVersion;
-    if (schemaVersion === '1.0') {
+    const schemaVersionString: string = edgeAgentModuleTwin.properties.desired.schemaVersion || '';
+    const schemaVersion = getVersion(schemaVersionString);
+
+    if (schemaVersion.major === 1) {
         // tslint:disable-next-line:no-any
         return get$EdgeAgentDesiredPropertiesViewModelFromTwin(edgeAgentModuleTwin as any);
     } else {
-        throw new EdgeUnsupportedSchemaException(schemaVersion);
+        throw new EdgeUnsupportedSchemaException(schemaVersionString);
     }
 };
 
@@ -56,12 +59,14 @@ export const get$EdgeAgentReportedPropertiesViewModel = (edgeAgentModuleTwin: $E
             return null;
     }
 
-    const schemaVersion: string = edgeAgentModuleTwin.properties.reported.schemaVersion;
-    if (schemaVersion === '1.0') {
+    const schemaVersionString: string = edgeAgentModuleTwin.properties.reported.schemaVersion || '';
+    const schemaVersion = getVersion(schemaVersionString);
+
+    if (schemaVersion.major === 1) {
         // tslint:disable-next-line:no-any
         return get$EdgeAgentReportedPropertiesViewModelFromTwin(edgeAgentModuleTwin as any);
     } else {
-        throw new EdgeUnsupportedSchemaException(schemaVersion);
+        throw new EdgeUnsupportedSchemaException(schemaVersionString);
     }
 };
 

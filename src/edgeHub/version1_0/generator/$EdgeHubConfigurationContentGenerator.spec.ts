@@ -36,7 +36,7 @@ describe('$EdgeHubConfigurationContentGenerator', () => {
                     timeToLiveSecs: 100,
                 }
             });
-            expect(edgeHubDesiredProperties.schemaVersion).toEqual('1.0');
+            expect(edgeHubDesiredProperties.schemaVersion).toEqual('schemaVersion');
             expect(edgeHubDesiredProperties.storeAndForwardConfiguration.timeToLiveSecs).toEqual(edgeHubDesiredPropertiesViewModel.storeAndForwardTimeToLive);
         });
     });
