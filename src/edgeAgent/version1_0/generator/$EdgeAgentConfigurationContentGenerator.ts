@@ -24,7 +24,7 @@ export const generate$EdgeAgentConfigurationContent = (edgeAgentDesiredPropertie
             settings: {},
             type: edgeAgentDesiredPropertiesViewModel.runtimeType
         },
-        schemaVersion: $EDGE_AGENT.SCHEMA_VERSION_1_0,
+        schemaVersion: edgeAgentDesiredPropertiesViewModel.schemaVersion,
         systemModules: {
             edgeAgent: edgeAgentModuleSpecification,
             edgeHub: edgeHubModuleSpecification

@@ -37,7 +37,7 @@ describe('generate$EdgeAgentConfigurationContentPatch', () => {
 
 describe('conflictWithModule', () => {
     it('returns false if set is empty', () => {
-        expect(conflictWithModuleEntry({}, new Set<string>())).toEqual(false);
+        expect(conflictWithModuleEntry('', new Set<string>())).toEqual(false);
     });
 
     it('returns true if properties.desired', () => {
@@ -64,7 +64,7 @@ describe('conflictWithModule', () => {
         expect(conflictWithModuleEntry(additionalEntry, moduleNames)).toEqual(false);
     });
 
-    it('returns true if not under modules path set', () => {
+    it('returns true if under modules path set', () => {
         const moduleNames = new Set(['name']);
         const additionalEntry = 'properties.desired.modules.name.image';
         expect(conflictWithModuleEntry(additionalEntry, moduleNames)).toEqual(true);

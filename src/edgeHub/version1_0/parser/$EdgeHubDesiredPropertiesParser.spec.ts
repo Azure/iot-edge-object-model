@@ -3,7 +3,8 @@
 
 import 'jest';
 import { sampleConfigurationContent } from '../../../utilities/testHelpers';
-import { get$EdgeHubDesiredPropertiesViewModel } from './$EdgeHubDesiredPropertiesParser';
+import { get$EdgeHubDesiredPropertiesViewModel, getRouteViewModel } from './$EdgeHubDesiredPropertiesParser';
+import { RoutePathType } from '../../../viewModel/routeViewModel';
 
 describe('$EdgeHubDesiredPropertiesParser', () => {
     describe('get$EdgeHubDesiredPropertiesViewModel', () => {
@@ -14,8 +15,13 @@ describe('$EdgeHubDesiredPropertiesParser', () => {
 
             expect(edgeHubViewModel.schemaVersion).toEqual('1.0');
             expect(edgeHubViewModel.storeAndForwardTimeToLive).toEqual(0);
-            expect(JSON.stringify(edgeHubViewModel.routes)).toEqual(
-                JSON.stringify(content.modulesContent.$edgeHub['properties.desired'].routes));
+            expect(edgeHubViewModel.routeViewModels).toEqual([
+                {
+                    name: 'route',
+                    routePathType: undefined,
+                    value: 'FROM /* INTO $upstream'
+                }
+            ]);
         });
 
         it('throws exception if schemaVersion is not defined', () => {
@@ -44,6 +50,51 @@ describe('$EdgeHubDesiredPropertiesParser', () => {
             const edgeHubDesiredProperties = content.modulesContent.$edgeHub['properties.desired'];
             edgeHubDesiredProperties.storeAndForwardConfiguration.timeToLiveSecs = null;
             expect(() => get$EdgeHubDesiredPropertiesViewModel(edgeHubDesiredProperties)).toThrow();
+        });
+    });
+
+    describe('getRouteViewModel', () => {
+        it('returns RouteViewModel when route is string', () => {
+            expect(getRouteViewModel('route1', 'routeValue1')).toEqual({
+                name: 'route1',
+                routePathType: undefined,
+                value: 'routeValue1'
+            });
+        });
+
+        it('returns RouteViewModel when route is data structure', () => {
+            expect(getRouteViewModel('route1', { route: 'routeValue1', priority: 1, timeToLiveSecs: 200 })).toEqual({
+                name: 'route1',
+                routeOptions: {
+                    priority: 1,
+                    timeToLiveSecs: 200
+                },
+                routePathType: undefined,
+                value: 'routeValue1'
+            });
+        });
+
+        it('returns RouteViewModel when route is data structure with missing properties', () => {
+            expect(getRouteViewModel('route1', {})).toEqual({
+                name: 'route1',
+                routeOptions: {
+                    priority: undefined,
+                    timeToLiveSecs: undefined
+                },
+                value: ''
+            });
+        });
+
+        it('returns RouteViewModel with RoutePathType value set', () => {
+            expect(getRouteViewModel('route1', {}, RoutePathType.memberOfRoutesPath)).toEqual({
+                name: 'route1',
+                routeOptions: {
+                    priority: undefined,
+                    timeToLiveSecs: undefined
+                },
+                routePathType: RoutePathType.memberOfRoutesPath,
+                value: ''
+            });
         });
     });
 });

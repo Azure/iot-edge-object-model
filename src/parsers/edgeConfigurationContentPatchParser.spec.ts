@@ -46,10 +46,16 @@ describe('toEdgeConfigurationContentPatchViewModel', () => {
             additionalEdgeHubEntries: [
                 { 'properties.desired.foo': 'value'}
             ],
-            routePaths: {
-                path1: 'x',
-                path2: 'y'
-            }
+            routeViewModels: [
+                {
+                    name: 'path1',
+                    value: 'x'
+                },
+                {
+                    name: 'path2',
+                    value: 'y'
+                }
+            ]
         };
 
         spy.mockReturnValue(mockResult);
@@ -59,6 +65,6 @@ describe('toEdgeConfigurationContentPatchViewModel', () => {
         expect(parseResult.additionalEdgeHubEntries).toHaveLength(1);
         expect(parseResult.additionalEdgeHubEntries[0]).toEqual(mockResult.additionalEdgeHubEntries[0]);
 
-        expect(parseResult.routePaths).toEqual(mockResult.routePaths);
+        expect(parseResult.routeViewModels).toEqual(mockResult.routeViewModels);
     });
 });

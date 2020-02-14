@@ -51,9 +51,10 @@ export const $EDGE_AGENT = {
     SCHEMA_VERSION_1_0: '1.0',
 };
 export const $EDGE_HUB = {
-    ROUTES: {
-        route: 'FROM /messages/* INTO $upstream'
-    },
+    ROUTES: [{
+        name: 'route',
+        value: 'FROM /messages/* INTO $upstream'
+    }],
     SCHEMA_VERSION_1_0: '1.0',
     STORE_AND_FORWARD_TIME_TO_LIVE: 7200,
 };

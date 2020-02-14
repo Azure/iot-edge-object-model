@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { EdgeModuleSpecificationViewModel } from './edgeModuleSpecificationViewModel';
+import { RouteViewModel } from './routeViewModel';
 import { StringMap } from '../utilities/stringMap';
 import { RegistryCredentialViewModel } from './registryCredentialViewModel';
 
@@ -12,7 +13,7 @@ export interface $EdgeAgentPatchEntries {
 }
 
 export interface $EdgeHubPatchEntries {
-    routePaths: StringMap<string | object>;
+    routeViewModels: RouteViewModel[];
     additionalEdgeHubEntries: StringMap<string | object>;
 }
 
