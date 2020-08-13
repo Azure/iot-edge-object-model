@@ -68,6 +68,7 @@ export const getModuleSpecificationViewModel = (edgeAgentDesiredProperties: $Edg
         imagePullPolicy: baseModuleSpecificationViewModel.imagePullPolicy,
         name: baseModuleSpecificationViewModel.name,
         restartPolicy: '',
+        startupOrder: moduleSpecification.startupOrder,
         status: '',
         type: baseModuleSpecificationViewModel.type,
         version: baseModuleSpecificationViewModel.version
@@ -296,10 +297,12 @@ export const getEdgeHubSpecificationViewModel = (edgeAgentDesiredProperties: $Ed
         imagePullPolicy: baseModuleSpecificationViewModel.imagePullPolicy,
         name: baseModuleSpecificationViewModel.name,
         restartPolicy,
+        startupOrder: edgeHub.startupOrder,
         status,
         type: baseModuleSpecificationViewModel.type,
         version: baseModuleSpecificationViewModel.version
     };
+
     return moduleSpecificationViewModel;
 };
 

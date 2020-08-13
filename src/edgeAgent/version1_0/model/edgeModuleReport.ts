@@ -13,6 +13,7 @@ export interface EdgeModuleReport {
     restartPolicy?: string;
     runtimeStatus?: string;
     type?: string;
+    startupOrder?: number;
     status?: string;
     statusDescription?: string;
     settings?: {

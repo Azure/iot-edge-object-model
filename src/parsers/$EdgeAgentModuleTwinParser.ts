@@ -7,7 +7,7 @@ import { $EdgeAgentReportedPropertiesViewModel } from '../viewModel/$EdgeAgentRe
 import { $EdgeAgentDesiredPropertiesViewModel } from '../viewModel/$EdgeAgentDesiredPropertiesViewModel';
 import { ConfigurationViewModel } from '../viewModel/configurationViewModel';
 import { EdgeUnsupportedSchemaException } from '../errors/edgeUnsupportedSchemaException';
-import { getVersion } from '../utilities/versionUtilities';
+import { $EdgeAgentSchemaVersionIsSupported } from '../utilities/versionUtilities';
 import { StringMap } from '../utilities/stringMap';
 
 export interface $EdgeAgentModuleTwin {
@@ -42,9 +42,7 @@ export const get$EdgeAgentDesiredPropertiesViewModel = (edgeAgentModuleTwin: $Ed
     }
 
     const schemaVersionString: string = edgeAgentModuleTwin.properties.desired.schemaVersion || '';
-    const schemaVersion = getVersion(schemaVersionString);
-
-    if (schemaVersion.major === 1) {
+    if ($EdgeAgentSchemaVersionIsSupported(schemaVersionString)) {
         // tslint:disable-next-line:no-any
         return get$EdgeAgentDesiredPropertiesViewModelFromTwin(edgeAgentModuleTwin as any);
     } else {
@@ -60,9 +58,7 @@ export const get$EdgeAgentReportedPropertiesViewModel = (edgeAgentModuleTwin: $E
     }
 
     const schemaVersionString: string = edgeAgentModuleTwin.properties.reported.schemaVersion || '';
-    const schemaVersion = getVersion(schemaVersionString);
-
-    if (schemaVersion.major === 1) {
+    if ($EdgeAgentSchemaVersionIsSupported(schemaVersionString)) {
         // tslint:disable-next-line:no-any
         return get$EdgeAgentReportedPropertiesViewModelFromTwin(edgeAgentModuleTwin as any);
     } else {

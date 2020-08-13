@@ -10,7 +10,7 @@ import { EdgeParseException } from '../errors/edgeParseException';
 import { EdgeUnsupportedSchemaException } from '../errors/edgeUnsupportedSchemaException';
 import { $EdgeAgentDesiredPropertiesViewModel } from '../viewModel/$EdgeAgentDesiredPropertiesViewModel';
 import { $EdgeHubDesiredPropertiesViewModel } from '../viewModel/$EdgeHubDesiredPropertiesViewModel';
-import { getVersion } from '../utilities/versionUtilities';
+import { $EdgeAgentSchemaVersionIsSupported, $EdgeHubSchemaVersionIsSupported } from '../utilities/versionUtilities';
 import { PATHS } from '../utilities/constants';
 
 export interface $EdgeAgentConfigurationContent {
@@ -49,8 +49,7 @@ export const get$EdgeAgentDesiredPropertiesViewModel = (edgeConfigurationContent
     }
 
     const schemaVersionString = edgeConfigurationContent.$edgeAgent['properties.desired'].schemaVersion || '';
-    const schemaVersion = getVersion(schemaVersionString);
-    if (schemaVersion.major === 1) {
+    if ($EdgeAgentSchemaVersionIsSupported(schemaVersionString)) {
         return get$EdgeAgentDesiredPropertiesViewModelFromConfiguration(edgeConfigurationContent as $EdgeAgentConfigurationContent1_0);
     } else {
         throw new EdgeUnsupportedSchemaException(schemaVersionString);
@@ -68,8 +67,7 @@ export const get$EdgeHubDesiredPropertiesViewModel = (edgeConfigurationContent: 
     }
 
     const schemaVersionString = edgeConfigurationContent.$edgeHub['properties.desired'].schemaVersion || '';
-    const schemaVersion = getVersion(schemaVersionString);
-    if (schemaVersion.major === 1) {
+    if ($EdgeHubSchemaVersionIsSupported(schemaVersionString)) {
         return get$EdgeHubDesiredPropertiesViewModelFromConfiguration(edgeConfigurationContent as $EdgeHubConfigurationContent1_0);
     } else {
         throw new EdgeUnsupportedSchemaException(schemaVersionString);

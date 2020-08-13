@@ -20,10 +20,10 @@ export const generate$EdgeHubConfigurationContent = (edgeHubDesiredPropertiesVie
 export const generateRoutesObject = (routeViewModels: RouteViewModel[]): object => {
     const routes = {};
     routeViewModels.forEach(routeViewModel => {
-        const routeValue = (routeViewModel.routeOptions) ? {
-            priority: routeViewModel.routeOptions.priority,
+        const routeValue = (routeViewModel.priority !== undefined || routeViewModel.timeToLiveSecs !== undefined) ? {
+            priority: routeViewModel.priority,
             route: routeViewModel.value,
-            timeToLiveSecs: routeViewModel.routeOptions.timeToLiveSecs,
+            timeToLiveSecs: routeViewModel.timeToLiveSecs,
         } : routeViewModel.value;
 
         routes[routeViewModel.name] = routeValue;
