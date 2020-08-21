@@ -29,7 +29,7 @@
     "build-ci": "npm run lint && tsc",
     "clean": "IF EXIST .\\dist RMDIR /Q /S .\\dist",
     "coverage-compile": "tsc --target es6 --module CommonJS --moduleResolution node ./scripts/verifyCoverage.ts",
-    "test": ".\\node_modules\\jest\\node_modules\\.bin\\jest.cmd --coverage",
+    "test": "./node_modules/jest/node_modules/.bin/jest.cmd --coverage",
     "lint": "tslint --project . -s node_modules/tslint-stylish -t stylish",
     "verify-coverage": "npm run coverage-compile && node ./scripts/verifyCoverage.js",
     "semantic-release": "semantic-release"
