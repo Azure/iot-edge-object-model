@@ -88,7 +88,7 @@ export const sample$EdgeAgentDesiredPropertiesViewModel = (): $EdgeAgentDesiredP
 
     vm.edgeHubModuleSpecificationViewModel = newEdgeHubModuleSpecificationViewModel();
     vm.edgeHubModuleSpecificationViewModel.createOptions = '{}';
-    vm.edgeHubModuleSpecificationViewModel.startupOrder = 0;
+    vm.edgeHubModuleSpecificationViewModel.startupOrder = '0';
     vm.edgeHubModuleSpecificationViewModel.environmentVariables.push(
         {
             name: 'edgeHubEnv1',
@@ -113,7 +113,7 @@ export const sample$EdgeAgentDesiredPropertiesViewModel = (): $EdgeAgentDesiredP
     vm.schemaVersion = '1.0';
 
     const moduleSpecification = newEdgeModuleSpecificationViewModel();
-    moduleSpecification.startupOrder = 1;
+    moduleSpecification.startupOrder = '1';
     moduleSpecification.createOptions = '{}';
     moduleSpecification.desiredProperties = {
         desiredProperty: {
@@ -173,7 +173,7 @@ export const sample$EdgeAgentReportedPropertiesViewModel = (): $EdgeAgentReporte
             restartCount: 2,
             restartPolicy: 'always',
             runtimeStatus: 'runtimeStatusHub',
-            startUpOrder: 0,
+            startUpOrder: '0',
             status: 'reportedStatus',
             statusDescription: 'status description',
             type: 'docker',
@@ -191,7 +191,7 @@ export const sample$EdgeAgentReportedPropertiesViewModel = (): $EdgeAgentReporte
             restartCount: 2,
             restartPolicy: 'always',
             runtimeStatus: 'runtimeStatusModule',
-            startUpOrder: 1,
+            startUpOrder: '1',
             status: 'reportedStatus',
             statusDescription: 'status description',
             type: 'docker',

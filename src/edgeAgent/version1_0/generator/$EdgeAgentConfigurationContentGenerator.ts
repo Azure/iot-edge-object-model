@@ -53,7 +53,10 @@ export const getEdgeHubModuleSpecification = (edgeAgentDesiredPropertiesViewMode
     const edgeHubModuleSpecification = getBaseModuleSpecification<EdgeHubModuleSpecification>(edgeAgentDesiredPropertiesViewModel.edgeHubModuleSpecificationViewModel);
     edgeHubModuleSpecification.status = edgeAgentDesiredPropertiesViewModel.edgeHubModuleSpecificationViewModel.status;
     edgeHubModuleSpecification.restartPolicy = edgeAgentDesiredPropertiesViewModel.edgeHubModuleSpecificationViewModel.restartPolicy;
-    edgeHubModuleSpecification.startupOrder = edgeAgentDesiredPropertiesViewModel.edgeHubModuleSpecificationViewModel.startupOrder;
+
+    if (edgeAgentDesiredPropertiesViewModel.edgeHubModuleSpecificationViewModel.startupOrder) {
+        edgeHubModuleSpecification.startupOrder = parseInt(edgeAgentDesiredPropertiesViewModel.edgeHubModuleSpecificationViewModel.startupOrder, 10);
+    }
 
     return edgeHubModuleSpecification;
 };
@@ -63,7 +66,10 @@ export const getEdgeModuleSpecification = (edgeModuleSpecificationViewModel: Edg
     edgeModuleSpecification.status = edgeModuleSpecificationViewModel.status;
     edgeModuleSpecification.restartPolicy = edgeModuleSpecificationViewModel.restartPolicy;
     edgeModuleSpecification.version =  edgeModuleSpecificationViewModel.version || $EDGE_AGENT.DEFAULT_MODULE_VERSION;
-    edgeModuleSpecification.startupOrder = edgeModuleSpecificationViewModel.startupOrder;
+
+    if (edgeModuleSpecificationViewModel.startupOrder) {
+        edgeModuleSpecification.startupOrder = parseInt(edgeModuleSpecificationViewModel.startupOrder, 10);
+    }
 
     return edgeModuleSpecification;
 };

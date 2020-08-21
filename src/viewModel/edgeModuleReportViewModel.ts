@@ -19,5 +19,5 @@ export interface EdgeModuleReportViewModel {
     createOptions: string;
     runtimeStatus: string;
     environmentVariables: EnvironmentVariableViewModel[];
-    startUpOrder?: number;
+    startUpOrder?: string;
 }

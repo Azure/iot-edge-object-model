@@ -65,9 +65,9 @@ describe('$EdgeHubDesiredPropertiesParser', () => {
         it('returns RouteViewModel when route is data structure', () => {
             expect(getRouteViewModel('route1', { route: 'routeValue1', priority: 1, timeToLiveSecs: 200 })).toEqual({
                 name: 'route1',
-                priority: 1,
+                priority: '1',
                 routePathType: undefined,
-                timeToLiveSecs: 200,
+                timeToLiveSecs: '200',
                 value: 'routeValue1'
             });
         });

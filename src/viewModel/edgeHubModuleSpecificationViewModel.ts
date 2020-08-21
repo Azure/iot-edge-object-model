@@ -4,7 +4,7 @@
 import { BaseEdgeModuleSpecificationViewModel } from './baseEdgeModuleSpecificationViewModel';
 
 export interface EdgeHubModuleSpecificationViewModel extends BaseEdgeModuleSpecificationViewModel {
-    startupOrder?: number;
+    startupOrder?: string;
     status: string;
     restartPolicy: string;
 }

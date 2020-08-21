@@ -68,7 +68,7 @@ describe('$EdgeAgentReportedPropertiesParser', () => {
             expect(result.edgeModuleReportViewModels[0].runtimeStatus).toEqual('failed');
             expect(result.edgeModuleReportViewModels[0].type).toEqual('docker');
             expect(result.edgeModuleReportViewModels[0].version).toEqual('1.0');
-            expect(result.edgeModuleReportViewModels[0].startUpOrder).toEqual(1);
+            expect(result.edgeModuleReportViewModels[0].startUpOrder).toEqual('1');
             expect(result.edgeModuleReportViewModels[0].environmentVariables).not.toBeNull();
             expect(result.edgeModuleReportViewModels[0].environmentVariables.length).toEqual(1);
             expect(result.edgeModuleReportViewModels[0].environmentVariables[0].name).toEqual('mySetting');

@@ -16,4 +16,16 @@ describe('viewModelFactory', () => {
             expect(result.$edgeHubDesiredPropertiesViewModel).toEqual(new$EdgeHubDesiredPropertiesViewModelWithDefaults());
         });
     });
+
+    describe('new$EdgeAgentDesiredPropertiesViewModel', () => {
+        it('uses latest version in new$EdgeAgentDesiredPropertiesViewModel', () => {
+            expect(new$EdgeAgentDesiredPropertiesViewModelWithDefaults().schemaVersion).toEqual('1.1');
+        });
+    });
+
+    describe('new$EdgeHubDesiredPropertiesViewModel', () => {
+        it('uses latest version in new$EdgeHubDesiredPropertiesViewModel', () => {
+            expect(new$EdgeHubDesiredPropertiesViewModelWithDefaults().schemaVersion).toEqual('1.1');
+        });
+    });
 });

@@ -78,9 +78,9 @@ export const getRouteViewModel = (key: string, routeValue: string | Route, route
     } else {
         return {
             name: key,
-            priority: routeValue.priority,
+            priority: routeValue.priority !== undefined ? routeValue.priority.toString() : undefined,
             routePathType,
-            timeToLiveSecs: routeValue.timeToLiveSecs,
+            timeToLiveSecs: routeValue.timeToLiveSecs !== undefined ? routeValue.timeToLiveSecs.toString() : undefined,
             value: routeValue.route || '',
         };
     }

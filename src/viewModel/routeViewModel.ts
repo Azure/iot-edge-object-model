@@ -10,7 +10,7 @@ export enum RoutePathType {
 export interface RouteViewModel {
     name: string;
     value: string;
-    priority?: number;
-    timeToLiveSecs?: number;
+    priority?: string;
+    timeToLiveSecs?: string;
     routePathType?: RoutePathType;
 }

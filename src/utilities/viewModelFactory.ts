@@ -5,6 +5,7 @@ import { $EDGE_AGENT, $EDGE_HUB } from './constants';
 import { $EdgeAgentDesiredPropertiesViewModel } from '../viewModel/$EdgeAgentDesiredPropertiesViewModel';
 import { $EdgeHubDesiredPropertiesViewModel } from '../viewModel/$EdgeHubDesiredPropertiesViewModel';
 import { EdgeConfigurationContentViewModel } from '../viewModel/edgeConfigurationContentViewModel';
+import { $EdgeAgentSchemaVersions, $EdgeHubSchemaVersions } from '../utilities/versionUtilities';
 
 export const newEdgeConfigurationContentViewModel = (): EdgeConfigurationContentViewModel => {
     return {
@@ -40,7 +41,7 @@ export const new$EdgeAgentDesiredPropertiesViewModelWithDefaults = (): $EdgeAgen
         moduleSpecificationViewModels: [],
         registyCredentials: [],
         runtimeType: $EDGE_AGENT.RUNTIME_TYPE,
-        schemaVersion: $EDGE_AGENT.SCHEMA_VERSION_1_0
+        schemaVersion: Object.keys($EdgeAgentSchemaVersions).slice(-1)[0]
     };
 
     return $edgeAgentDesiredPropertiesViewModel;
@@ -49,7 +50,7 @@ export const new$EdgeAgentDesiredPropertiesViewModelWithDefaults = (): $EdgeAgen
 export const new$EdgeHubDesiredPropertiesViewModelWithDefaults = (): $EdgeHubDesiredPropertiesViewModel => {
     return {
         routeViewModels: $EDGE_HUB.ROUTES,
-        schemaVersion: $EDGE_HUB.SCHEMA_VERSION_1_0,
+        schemaVersion: Object.keys($EdgeHubSchemaVersions).slice(-1)[0],
         storeAndForwardTimeToLive: $EDGE_HUB.STORE_AND_FORWARD_TIME_TO_LIVE
     };
 };

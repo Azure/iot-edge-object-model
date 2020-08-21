@@ -68,7 +68,7 @@ export const getModuleSpecificationViewModel = (edgeAgentDesiredProperties: $Edg
         imagePullPolicy: baseModuleSpecificationViewModel.imagePullPolicy,
         name: baseModuleSpecificationViewModel.name,
         restartPolicy: '',
-        startupOrder: moduleSpecification.startupOrder,
+        startupOrder: moduleSpecification.startupOrder !== undefined ? moduleSpecification.startupOrder.toString() : undefined,
         status: '',
         type: baseModuleSpecificationViewModel.type,
         version: baseModuleSpecificationViewModel.version
@@ -297,7 +297,7 @@ export const getEdgeHubSpecificationViewModel = (edgeAgentDesiredProperties: $Ed
         imagePullPolicy: baseModuleSpecificationViewModel.imagePullPolicy,
         name: baseModuleSpecificationViewModel.name,
         restartPolicy,
-        startupOrder: edgeHub.startupOrder,
+        startupOrder: edgeHub.startupOrder !== undefined ? edgeHub.startupOrder.toString() : undefined,
         status,
         type: baseModuleSpecificationViewModel.type,
         version: baseModuleSpecificationViewModel.version
