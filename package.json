@@ -6,7 +6,9 @@
   "files": [
     "dist/**/*"
   ],
-  "dependencies": {},
+  "dependencies": {
+
+  },
   "devDependencies": {
     "@types/jest": "26.0.9",
     "@types/node": "11.13.4",
@@ -24,10 +26,10 @@
   "license": "MIT",
   "scripts": {
     "build": "npm run clean && npm run build-ci",
-    "build-ci": "tsc",
+    "build-ci": "npm run lint && tsc",
     "clean": "IF EXIST .\\dist RMDIR /Q /S .\\dist",
     "coverage-compile": "tsc --target es6 --module CommonJS --moduleResolution node ./scripts/verifyCoverage.ts",
-    "test": "jest --coverage",
+    "test": ".\\node_modules\\jest\\node_modules\\.bin\\jest.cmd --coverage",
     "lint": "tslint --project . -s node_modules/tslint-stylish -t stylish",
     "verify-coverage": "npm run coverage-compile && node ./scripts/verifyCoverage.js",
     "semantic-release": "semantic-release"
