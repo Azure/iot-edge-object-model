@@ -13,7 +13,7 @@
     "@types/xml2js": "0.4.4",
     "awesome-typescript-loader": "5.2.1",
     "declaration-bundler-webpack-plugin": "1.0.3",
-    "jest": "26.4.0",
+    "jest": "25.1.0",
     "semantic-release": "15.13.3",
     "ts-jest": "26.2.0",
     "tslint": "5.12.1",
@@ -43,8 +43,7 @@
       "html",
       "cobertura"
     ],
-    "setupFiles": [
-    ],
+    "setupFiles": [],
     "transform": {
       "^.+\\.(js|jsx|ts|tsx)$": "ts-jest"
     },
