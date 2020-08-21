@@ -24,7 +24,7 @@
   "license": "MIT",
   "scripts": {
     "build": "npm run clean && npm run build-ci",
-    "build-ci": "npm run lint && tsc",
+    "build-ci": "tsc",
     "clean": "IF EXIST .\\dist RMDIR /Q /S .\\dist",
     "coverage-compile": "tsc --target es6 --module CommonJS --moduleResolution node ./scripts/verifyCoverage.ts",
     "test": "jest --coverage",
