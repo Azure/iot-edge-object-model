@@ -40,6 +40,7 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
             expect(result.systemModules.edgeHub.version).toEqual(vm.edgeHubModuleSpecificationViewModel.version);
             expect(result.systemModules.edgeHub.status).toEqual(vm.edgeHubModuleSpecificationViewModel.status);
             expect(result.systemModules.edgeHub.restartPolicy).toEqual(vm.edgeHubModuleSpecificationViewModel.restartPolicy);
+            expect(result.systemModules.edgeHub.startupOrder).toEqual(0);
 
             expect(Object.keys(result.modules).length).toEqual(1);
             expect(result.modules[vm.moduleSpecificationViewModels[0].name].settings.createOptions).toEqual(vm.moduleSpecificationViewModels[0].createOptions);
@@ -51,6 +52,7 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
             expect(result.modules[vm.moduleSpecificationViewModels[0].name].type).toEqual(vm.moduleSpecificationViewModels[0].type);
             expect(result.modules[vm.moduleSpecificationViewModels[0].name].version).toEqual(vm.moduleSpecificationViewModels[0].version);
             expect(result.modules[vm.moduleSpecificationViewModels[0].name].status).toEqual(vm.moduleSpecificationViewModels[0].status);
+            expect(result.modules[vm.moduleSpecificationViewModels[0].name].startupOrder).toEqual(1);
         });
     });
 

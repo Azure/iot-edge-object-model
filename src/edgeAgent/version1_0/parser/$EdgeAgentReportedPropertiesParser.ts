@@ -134,6 +134,8 @@ export const getEdgeModuleReportViewModel = (edgeModuleReport: EdgeModuleReport,
         edgeModuleReportViewModel.version = edgeModuleReport.version;
     }
 
+    edgeModuleReportViewModel.startUpOrder = edgeModuleReport.startupOrder !== undefined ? edgeModuleReport.startupOrder.toString() : undefined;
+
     if (edgeModuleReport.env) {
         edgeModuleReportViewModel.environmentVariables = [];
         const env = edgeModuleReport.env;

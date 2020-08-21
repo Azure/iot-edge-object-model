@@ -54,6 +54,10 @@ export const getEdgeHubModuleSpecification = (edgeAgentDesiredPropertiesViewMode
     edgeHubModuleSpecification.status = edgeAgentDesiredPropertiesViewModel.edgeHubModuleSpecificationViewModel.status;
     edgeHubModuleSpecification.restartPolicy = edgeAgentDesiredPropertiesViewModel.edgeHubModuleSpecificationViewModel.restartPolicy;
 
+    if (edgeAgentDesiredPropertiesViewModel.edgeHubModuleSpecificationViewModel.startupOrder) {
+        edgeHubModuleSpecification.startupOrder = parseInt(edgeAgentDesiredPropertiesViewModel.edgeHubModuleSpecificationViewModel.startupOrder, 10);
+    }
+
     return edgeHubModuleSpecification;
 };
 
@@ -61,7 +65,11 @@ export const getEdgeModuleSpecification = (edgeModuleSpecificationViewModel: Edg
     const edgeModuleSpecification = getBaseModuleSpecification<EdgeModuleSpecification>(edgeModuleSpecificationViewModel) as EdgeModuleSpecification;
     edgeModuleSpecification.status = edgeModuleSpecificationViewModel.status;
     edgeModuleSpecification.restartPolicy = edgeModuleSpecificationViewModel.restartPolicy;
-    edgeModuleSpecification.version =  $EDGE_AGENT.DEFAULT_MODULE_VERSION;
+    edgeModuleSpecification.version =  edgeModuleSpecificationViewModel.version || $EDGE_AGENT.DEFAULT_MODULE_VERSION;
+
+    if (edgeModuleSpecificationViewModel.startupOrder) {
+        edgeModuleSpecification.startupOrder = parseInt(edgeModuleSpecificationViewModel.startupOrder, 10);
+    }
 
     return edgeModuleSpecification;
 };

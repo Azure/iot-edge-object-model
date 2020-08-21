@@ -88,6 +88,7 @@ export const sample$EdgeAgentDesiredPropertiesViewModel = (): $EdgeAgentDesiredP
 
     vm.edgeHubModuleSpecificationViewModel = newEdgeHubModuleSpecificationViewModel();
     vm.edgeHubModuleSpecificationViewModel.createOptions = '{}';
+    vm.edgeHubModuleSpecificationViewModel.startupOrder = '0';
     vm.edgeHubModuleSpecificationViewModel.environmentVariables.push(
         {
             name: 'edgeHubEnv1',
@@ -112,6 +113,7 @@ export const sample$EdgeAgentDesiredPropertiesViewModel = (): $EdgeAgentDesiredP
     vm.schemaVersion = '1.0';
 
     const moduleSpecification = newEdgeModuleSpecificationViewModel();
+    moduleSpecification.startupOrder = '1';
     moduleSpecification.createOptions = '{}';
     moduleSpecification.desiredProperties = {
         desiredProperty: {
@@ -157,7 +159,7 @@ export const sample$EdgeAgentReportedPropertiesViewModel = (): $EdgeAgentReporte
             status: 'reportedStatus',
             statusDescription: 'status description',
             type: 'docker',
-            version: '1.0'
+            version: '1.1'
         },
         edgeHubModuleReportViewModel: {
             createOptions: 'hubCreateOptions',
@@ -171,10 +173,11 @@ export const sample$EdgeAgentReportedPropertiesViewModel = (): $EdgeAgentReporte
             restartCount: 2,
             restartPolicy: 'always',
             runtimeStatus: 'runtimeStatusHub',
+            startUpOrder: '0',
             status: 'reportedStatus',
             statusDescription: 'status description',
             type: 'docker',
-            version: '1.0'
+            version: '1.1'
         },
         edgeModuleReportViewModels: [{
             createOptions: 'sampleCreateOptions',
@@ -188,6 +191,7 @@ export const sample$EdgeAgentReportedPropertiesViewModel = (): $EdgeAgentReporte
             restartCount: 2,
             restartPolicy: 'always',
             runtimeStatus: 'runtimeStatusModule',
+            startUpOrder: '1',
             status: 'reportedStatus',
             statusDescription: 'status description',
             type: 'docker',
@@ -250,7 +254,7 @@ export const sampleConfigurationContent = () => {
                         },
                         type: 'docker',
                     },
-                    schemaVersion: '1.0',
+                    schemaVersion: '1.1',
                     systemModules: {
                         edgeAgent: {
                             configuration: {
@@ -292,7 +296,7 @@ export const sampleConfigurationContent = () => {
             $edgeHub: {
                 'properties.desired': {
                     routes,
-                    schemaVersion: '1.0',
+                    schemaVersion: '1.1',
                     storeAndForwardConfiguration: {
                         timeToLiveSecs: edgeHubCreateTimeToLiveSecs
                     }
@@ -336,6 +340,7 @@ export const sample$EdgeAgentModuleTwin = () => {
                             createOptions: '{\'key\':\'value\'}',
                             image: 'mcr/azureiotedge-simulated-temperature-sensor:1.0-preview',
                         },
+                        startupOrder: 1,
                         status: 'running',
                         type: 'docker',
                         version: '1.0',
@@ -381,6 +386,7 @@ export const sample$EdgeAgentModuleTwin = () => {
                             createOptions: JSON.stringify({ Env: 'value'}),
                             image: 'mcr/azureiotedge-hub:1.0-preview',
                         },
+                        startupOrder: 1,
                         status: 'running',
                         type: 'docker'
                     }
@@ -633,12 +639,12 @@ export const sample$EdgeAgentModuleTwin = () => {
                         restartCount: 0,
                         restartPolicy: 'always',
                         runtimeStatus: 'failed',
-
                         settings: {
                             createOptions: '{}',
                             image: 'mcr/azureiotedge-simulated-temperature-sensor:1.0-preview',
                             imageHash: 'sha256:e33fcbbfa1b0d75d4faf5094fc8403c97812691c6eb4c5334222ba098dc38eb2',
                         },
+                        startupOrder: 1,
                         status: 'running',
                         statusDescription: 'exited',
                         type: 'docker',

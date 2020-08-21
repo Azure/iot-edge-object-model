@@ -13,7 +13,7 @@ describe('$EdgeHubDesiredPropertiesParser', () => {
             const edgeHubDesiredProperties = content.modulesContent.$edgeHub['properties.desired'];
             const edgeHubViewModel = get$EdgeHubDesiredPropertiesViewModel(edgeHubDesiredProperties);
 
-            expect(edgeHubViewModel.schemaVersion).toEqual('1.0');
+            expect(edgeHubViewModel.schemaVersion).toEqual('1.1');
             expect(edgeHubViewModel.storeAndForwardTimeToLive).toEqual(0);
             expect(edgeHubViewModel.routeViewModels).toEqual([
                 {
@@ -65,11 +65,9 @@ describe('$EdgeHubDesiredPropertiesParser', () => {
         it('returns RouteViewModel when route is data structure', () => {
             expect(getRouteViewModel('route1', { route: 'routeValue1', priority: 1, timeToLiveSecs: 200 })).toEqual({
                 name: 'route1',
-                routeOptions: {
-                    priority: 1,
-                    timeToLiveSecs: 200
-                },
+                priority: '1',
                 routePathType: undefined,
+                timeToLiveSecs: '200',
                 value: 'routeValue1'
             });
         });
@@ -77,10 +75,8 @@ describe('$EdgeHubDesiredPropertiesParser', () => {
         it('returns RouteViewModel when route is data structure with missing properties', () => {
             expect(getRouteViewModel('route1', {})).toEqual({
                 name: 'route1',
-                routeOptions: {
-                    priority: undefined,
-                    timeToLiveSecs: undefined
-                },
+                priority: undefined,
+                timeToLiveSecs: undefined,
                 value: ''
             });
         });
@@ -88,11 +84,9 @@ describe('$EdgeHubDesiredPropertiesParser', () => {
         it('returns RouteViewModel with RoutePathType value set', () => {
             expect(getRouteViewModel('route1', {}, RoutePathType.memberOfRoutesPath)).toEqual({
                 name: 'route1',
-                routeOptions: {
-                    priority: undefined,
-                    timeToLiveSecs: undefined
-                },
+                priority: undefined,
                 routePathType: RoutePathType.memberOfRoutesPath,
+                timeToLiveSecs: undefined,
                 value: ''
             });
         });

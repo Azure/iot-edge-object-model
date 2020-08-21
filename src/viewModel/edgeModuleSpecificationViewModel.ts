@@ -7,6 +7,7 @@ import { StringMap } from '../utilities/stringMap';
 export interface EdgeModuleSpecificationViewModel extends BaseEdgeModuleSpecificationViewModel{
     desiredProperties: StringMap<object | string> | null;
     restartPolicy: string;
+    startupOrder?: string;
     status: string;
     asaModuleInformation?: AsaModuleInformation;
 }

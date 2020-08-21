@@ -7,14 +7,10 @@ export enum RoutePathType {
     standaloneRoutePath // render route as properties.desired.routes.[routeName]
 }
 
-export interface RouteOptions {
-    priority?: number;
-    timeToLiveSecs?: number;
-}
-
 export interface RouteViewModel {
     name: string;
     value: string;
-    routeOptions?: RouteOptions;
+    priority?: string;
+    timeToLiveSecs?: string;
     routePathType?: RoutePathType;
 }

@@ -13,7 +13,7 @@ describe('generateConfigurationContentPatch', () => {
             additionalEdgeHubEntries: {},
             moduleSpecificationViewModels: [],
             registryCredentials: [],
-            routePaths: {}
+            routeViewModels: []
         };
 
         const agentSpy = jest.spyOn($EdgeAgentConfigurationContentPatchGenerator, 'generate$EdgeAgentConfigurationContentPatch');
@@ -39,7 +39,7 @@ describe('generateConfigurationContentPatch', () => {
             additionalEdgeHubEntries: {},
             moduleSpecificationViewModels: [ edgeModuleSpecificationViewModel ],
             registryCredentials: [],
-            routePaths: {}
+            routeViewModels: []
         };
 
         const result = generateConfigurationContentPatch(edgeConfigurationContentPatchViewModel);
@@ -55,7 +55,7 @@ describe('generateConfigurationContentPatch', () => {
             additionalEdgeHubEntries: {},
             moduleSpecificationViewModels: [ edgeModuleSpecificationViewModel ],
             registryCredentials: [],
-            routePaths: {}
+            routeViewModels: []
         };
 
         const result = generateConfigurationContentPatch(edgeConfigurationContentPatchViewModel);
@@ -68,7 +68,7 @@ describe('generateConfigurationContentPatch', () => {
             additionalEdgeHubEntries: {},
             moduleSpecificationViewModels: [],
             registryCredentials: [],
-            routePaths: {}
+            routeViewModels: []
         };
 
         const agentSpy = jest.spyOn($EdgeAgentConfigurationContentPatchGenerator, 'generate$EdgeAgentConfigurationContentPatch');

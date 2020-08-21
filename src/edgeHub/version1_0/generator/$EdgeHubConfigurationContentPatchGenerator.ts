@@ -11,10 +11,10 @@ export const generate$EdgeHubConfigurationContentPatch = (patchEntries: $EdgeHub
 
     routeViewModels.forEach(routeViewModel => {
         const routePrefix = `${PATHS.DESIRED_PROPERTIES}.${PATHS.ROUTES}`;
-        const routeValue = (routeViewModel.routeOptions) ? {
-            priority: routeViewModel.routeOptions.priority,
+        const routeValue = (routeViewModel.priority !== undefined || routeViewModel.timeToLiveSecs !== undefined) ? {
+            priority: routeViewModel.priority ? parseInt(routeViewModel.priority, 10) : undefined,
             route: routeViewModel.value,
-            timeToLiveSecs: routeViewModel.routeOptions.timeToLiveSecs,
+            timeToLiveSecs: routeViewModel.timeToLiveSecs ? parseInt(routeViewModel.timeToLiveSecs, 10) : undefined,
         } : routeViewModel.value;
 
         if (routeViewModel.routePathType === RoutePathType.memberOfRoutesPath) {

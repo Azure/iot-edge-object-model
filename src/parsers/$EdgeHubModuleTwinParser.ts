@@ -6,7 +6,7 @@ import { $EdgeHubModuleTwinViewModel } from '../viewModel/$EdgeHubModuleTwinView
 import { $EdgeHubDesiredPropertiesViewModel } from '../viewModel/$EdgeHubDesiredPropertiesViewModel';
 import { $EdgeHubReportedPropertiesViewModel } from '../viewModel/$EdgeHubReportedPropertiesViewModel';
 import { EdgeUnsupportedSchemaException } from '../errors/edgeUnsupportedSchemaException';
-import { getVersion } from '../utilities/versionUtilities';
+import { $EdgeHubSchemaVersionIsSupported } from '../utilities/versionUtilities';
 
 export interface $EdgeHubModuleTwin {
     moduleId: string;
@@ -38,9 +38,7 @@ export const get$EdgeHubDesiredPropertiesViewModel = (edgeHubModuleTwin: $EdgeHu
     }
 
     const schemaVersionString = edgeHubModuleTwin.properties.desired.schemaVersion || '';
-    const schemaVersion = getVersion(schemaVersionString);
-
-    if (schemaVersion.major === 1) {
+    if ($EdgeHubSchemaVersionIsSupported(schemaVersionString)) {
         // tslint:disable-next-line:no-any
         return get$EdgeHubDesiredPropertiesViewModelFromTwin(edgeHubModuleTwin as any);
     }
@@ -57,9 +55,7 @@ export const get$EdgeHubReportedPropertiesViewModel = (edgeHubModuleTwin: $EdgeH
     }
 
     const schemaVersionString = edgeHubModuleTwin.properties.reported.schemaVersion;
-    const schemaVersion = getVersion(schemaVersionString);
-
-    if (schemaVersion.major === 1) {
+    if ($EdgeHubSchemaVersionIsSupported(schemaVersionString)) {
         // tslint:disable-next-line:no-any
         return get$EdgeHubReportedPropertiesViewModelFromTwin(edgeHubModuleTwin as any);
     }

@@ -50,6 +50,7 @@ describe('$EdgeAgentDesiredPropertiesParser', () => {
             expect(result.edgeHubModuleSpecificationViewModel.status).toEqual('running');
             expect(result.edgeHubModuleSpecificationViewModel.type).toEqual('docker');
             expect(result.edgeHubModuleSpecificationViewModel.version).toEqual('');
+            expect(result.edgeHubModuleSpecificationViewModel.startupOrder).toEqual('1');
 
             expect(result.moduleSpecificationViewModels.length).toEqual(1);
             expect(result.moduleSpecificationViewModels[0].createOptions).toEqual('{\'key\':\'value\'}');
@@ -64,6 +65,7 @@ describe('$EdgeAgentDesiredPropertiesParser', () => {
             expect(result.moduleSpecificationViewModels[0].type).toEqual('docker');
             expect(result.moduleSpecificationViewModels[0].version).toEqual('1.0');
             expect(result.moduleSpecificationViewModels[0].imagePullPolicy).toEqual('never');
+            expect(result.moduleSpecificationViewModels[0].startupOrder).toEqual('1');
 
             expect(result.loggingOptions).toEqual('loggingOption');
             expect(result.minDockerVersion).toEqual('v1.25');

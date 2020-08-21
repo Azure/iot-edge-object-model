@@ -17,11 +17,14 @@ describe('$EdgeHubConfigurationContentGenerator', () => {
                     },
                     {
                         name: 'route2',
-                        routeOptions: {
-                            timeToLiveSecs: 100
-                        },
+                        timeToLiveSecs: 100,
                         value: 'route2Value'
                     },
+                    {
+                        name: 'route3',
+                        priority: 100,
+                        value: 'route3Value'
+                    }
                 ],
                 schemaVersion: 'schemaVersion',
                 storeAndForwardTimeToLive: 7200
@@ -34,6 +37,11 @@ describe('$EdgeHubConfigurationContentGenerator', () => {
                     priority: undefined,
                     route: 'route2Value',
                     timeToLiveSecs: 100,
+                },
+                route3: {
+                    priority: 100,
+                    route: 'route3Value',
+                    timeToLiveSecs: undefined
                 }
             });
             expect(edgeHubDesiredProperties.schemaVersion).toEqual('schemaVersion');
