@@ -87,7 +87,7 @@ export const $EdgeHubVersionSupportsFeature = (version: string, feature: EdgeHub
         return true;
     }
 
-    const featureGraph = get$EdgeHubFeatureGraph($EdgeAgentSchemaVersions);
+    const featureGraph = get$EdgeHubFeatureGraph($EdgeHubSchemaVersions);
     if (featureGraph[version] && featureGraph[version].has(feature)) {
         return true;
     }
