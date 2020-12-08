@@ -158,8 +158,8 @@ Layered Deployments are a feature of Microsoft Azure IoT Hubs enabling a partial
 # Conventions
 The adoption of view models simplifies several editing tasks.  It additionally insulates consuming applications from changes to the IoT Edge deployment schema.  As additional schema versions are introduced, applications may continue to support deployments issued in prior schemas.  Currently, the library supports the following schema versions:
 
-* EdgeAgent: 1.0
-* EdgeHub: 1.0
+* EdgeAgent: 1.0, 1.1
+* EdgeHub: 1.0, 1.1
 
 If either the EdgeAgent or EdgeHub schemaVersion properties specify an unsupported version, the library throws an instance of [EdgeUnsupportedSchemaException](./src/errors/edgeUnsupportedSchemaException.ts).
 
