@@ -14,11 +14,11 @@
     "awesome-typescript-loader": "5.2.1",
     "declaration-bundler-webpack-plugin": "1.0.3",
     "jest": "25.1.0",
-    "semantic-release": "15.13.3",
+    "semantic-release": "17.2.3",
     "ts-jest": "26.2.0",
     "tslint": "5.12.1",
     "tslint-origin-ordered-imports-rule": "1.1.2",
-    "typescript": "3.3.3",
+    "typescript": "3.8.3",
     "xml2js": "0.4.19"
   },
   "license": "MIT",
