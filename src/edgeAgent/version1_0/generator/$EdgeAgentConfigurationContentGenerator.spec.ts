@@ -17,9 +17,9 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
             expect(result.runtime.settings.loggingOptions).toEqual(vm.loggingOptions);
             expect(result.runtime.settings.minDockerVersion).toEqual(vm.minDockerVersion);
             expect(Object.keys(result.runtime.settings.registryCredentials).length).toEqual(1);
-            expect(result.runtime.settings.registryCredentials[vm.registyCredentials[0].name].address).toEqual(vm.registyCredentials[0].address);
-            expect(result.runtime.settings.registryCredentials[vm.registyCredentials[0].name].password).toEqual(vm.registyCredentials[0].password);
-            expect(result.runtime.settings.registryCredentials[vm.registyCredentials[0].name].username).toEqual(vm.registyCredentials[0].username);
+            expect(result.runtime.settings.registryCredentials[vm.registryCredentials[0].name].address).toEqual(vm.registryCredentials[0].address);
+            expect(result.runtime.settings.registryCredentials[vm.registryCredentials[0].name].password).toEqual(vm.registryCredentials[0].password);
+            expect(result.runtime.settings.registryCredentials[vm.registryCredentials[0].name].username).toEqual(vm.registryCredentials[0].username);
             expect(result.runtime.type).toEqual(vm.runtimeType);
             expect(result.schemaVersion).toEqual(vm.schemaVersion);
 
@@ -195,7 +195,7 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
                 loggingOptions: '',
                 minDockerVersion: 'minDockerVersion',
                 moduleSpecificationViewModels: [],
-                registyCredentials: [],
+                registryCredentials: [],
                 runtimeType: 'runtimeVersion',
                 schemaVersion: 'schemaVersion'
             };
@@ -225,7 +225,7 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
                 loggingOptions: '',
                 minDockerVersion: '',
                 moduleSpecificationViewModels: [],
-                registyCredentials: [],
+                registryCredentials: [],
                 runtimeType: 'runtimeVersion',
                 schemaVersion: 'schemaVersion',
             };
@@ -256,7 +256,7 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
                 loggingOptions: '',
                 minDockerVersion: '',
                 moduleSpecificationViewModels: [],
-                registyCredentials: [],
+                registryCredentials: [],
                 runtimeType: 'runtimeVersion',
                 schemaVersion: 'schemaVersion',
             };

@@ -103,7 +103,7 @@ export const sample$EdgeAgentDesiredPropertiesViewModel = (): $EdgeAgentDesiredP
 
     vm.loggingOptions = 'loggingOptions';
     vm.minDockerVersion = 'v1.25';
-    vm.registyCredentials.push({
+    vm.registryCredentials.push({
         address: 'reg1Address',
         name: 'reg1',
         password: 'reg1Password',

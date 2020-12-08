@@ -71,12 +71,12 @@ describe('$EdgeAgentDesiredPropertiesParser', () => {
             expect(result.minDockerVersion).toEqual('v1.25');
             expect(result.runtimeType).toEqual('docker');
             expect(result.schemaVersion).toEqual('1.0');
-            expect(result.registyCredentials).not.toBeNull();
-            expect(result.registyCredentials.length).toEqual(1);
-            expect(result.registyCredentials[0].address).toEqual('address1');
-            expect(result.registyCredentials[0].username).toEqual('username1');
-            expect(result.registyCredentials[0].password).toEqual('password1');
-            expect(result.registyCredentials[0].name).toEqual('credential1');
+            expect(result.registryCredentials).not.toBeNull();
+            expect(result.registryCredentials.length).toEqual(1);
+            expect(result.registryCredentials[0].address).toEqual('address1');
+            expect(result.registryCredentials[0].username).toEqual('username1');
+            expect(result.registryCredentials[0].password).toEqual('password1');
+            expect(result.registryCredentials[0].name).toEqual('credential1');
         });
     });
 
