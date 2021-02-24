@@ -12,7 +12,7 @@ export const $EDGE_AGENT = {
     DEFAULT_MODULE_VERSION: '1.0',
     EDGE_AGENT: {
         CREATE_OPTIONS: '',
-        IMAGE: 'mcr.microsoft.com/azureiotedge-agent:1.0',
+        IMAGE: 'mcr.microsoft.com/azureiotedge-agent:1.1',
         NAME: 'edgeAgent',
         TYPE: 'docker',
         VERSION: '1.0',
@@ -39,7 +39,7 @@ export const $EDGE_AGENT = {
                 }
             }
         }),
-        IMAGE: 'mcr.microsoft.com/azureiotedge-hub:1.0',
+        IMAGE: 'mcr.microsoft.com/azureiotedge-hub:1.1',
         NAME: 'edgeHub',
         RESTART_POLICY: 'always',
         STATUS: 'running',
