@@ -140,11 +140,11 @@ export const populateRuntimeSettings = (edgeAgentDesiredPropertiesViewModel: $Ed
     }
 
     // registryCredential
-    if (edgeAgentDesiredPropertiesViewModel.registyCredentials &&
-        edgeAgentDesiredPropertiesViewModel.registyCredentials.length > 0) {
+    if (edgeAgentDesiredPropertiesViewModel.registryCredentials &&
+        edgeAgentDesiredPropertiesViewModel.registryCredentials.length > 0) {
 
         const registryCredentials: StringMap<RegistryCredential> = {};
-        edgeAgentDesiredPropertiesViewModel.registyCredentials.forEach(registryCredential => {
+        edgeAgentDesiredPropertiesViewModel.registryCredentials.forEach(registryCredential => {
 
             registryCredentials[registryCredential.name] = {
                 address: registryCredential.address,

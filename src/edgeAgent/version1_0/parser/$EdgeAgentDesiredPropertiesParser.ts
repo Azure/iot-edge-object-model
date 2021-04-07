@@ -24,7 +24,7 @@ export const get$EdgeAgentDesiredPropertiesViewModel = (edgeAgentDesiredProperti
         loggingOptions: get$EdgeAgentLoggingOptions(edgeAgentDesiredProperties),
         minDockerVersion: get$EdgeAgentMinDockerVersion(edgeAgentDesiredProperties),
         moduleSpecificationViewModels: getModuleSpecificationViewModels(edgeAgentDesiredProperties),
-        registyCredentials: get$EdgeAgentRegistryCredentials(edgeAgentDesiredProperties),
+        registryCredentials: get$EdgeAgentRegistryCredentials(edgeAgentDesiredProperties),
         runtimeType: get$EdgeAgentRuntimeType(edgeAgentDesiredProperties),
         schemaVersion: get$EdgeAgentSchemaVersion(edgeAgentDesiredProperties)
     };
