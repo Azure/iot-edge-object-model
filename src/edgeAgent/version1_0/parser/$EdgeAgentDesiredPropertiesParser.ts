@@ -335,6 +335,13 @@ export const getBaseEdgeModuleSpecificationViewModel = (moduleSpecification: Bas
             PATHS.SETTINGS].join('.'));
     }
 
+    if (moduleSpecification.settings.createOptions && typeof(moduleSpecification.settings.createOptions) !== 'string') {
+        throw new EdgeParseException([
+            PATHS.$EDGE_AGENT,
+            PATHS.SETTINGS,
+            PATHS.CREATE_OPTIONS].join('.'));
+    }
+
     if (moduleSpecification.settings.createOptions01) {
         const settings = moduleSpecification.settings;
         settings.createOptions = [settings.createOptions, settings.createOptions01, settings.createOptions02, settings.createOptions03, settings.createOptions04, settings.createOptions05, settings.createOptions06, settings.createOptions07].join('');

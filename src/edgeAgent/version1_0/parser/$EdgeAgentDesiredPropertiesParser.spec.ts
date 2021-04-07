@@ -292,6 +292,13 @@ describe('$EdgeAgentDesiredPropertiesParser', () => {
             expect(() => { getBaseEdgeModuleSpecificationViewModel(edgeAgentTwin.properties.desired.systemModules.edgeAgent, 'edgeAgent', true); }).toThrow();
         });
 
+        it('throws exception when create options is not a string', () => {
+            const edgeAgentTwin = sample$EdgeAgentModuleTwin();
+            (edgeAgentTwin.properties.desired.modules.tempSensor.settings.createOptions as any) = {hello: 'world'};
+
+            expect(() => { getBaseEdgeModuleSpecificationViewModel(edgeAgentTwin.properties.desired.modules.tempSensor, 'tempSensor'); }).toThrow();
+        });
+
         it('throws exception when createOptions are malformed', () => {
             const edgeAgentTwin = sample$EdgeAgentModuleTwin();
             edgeAgentTwin.properties.desired.modules.tempSensor.settings.createOptions = '{';
