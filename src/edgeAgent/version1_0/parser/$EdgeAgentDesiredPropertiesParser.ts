@@ -9,7 +9,7 @@ import { EdgeAgentModuleSpecificationViewModel } from '../../../viewModel/edgeAg
 import { EdgeHubModuleSpecificationViewModel } from '../../../viewModel/edgeHubModuleSpecificationViewModel';
 import { EdgeModuleSpecificationViewModel } from '../../../viewModel/edgeModuleSpecificationViewModel';
 import { EdgeParseException } from '../../../errors/edgeParseException';
-import { EnvironmentVariableViewModel } from '../../../viewModel/environmentVariableViewModel';
+import { EnvironmentVariableViewModel, EnvironmentVariableValueType } from '../../../viewModel/environmentVariableViewModel';
 import { RegistryCredentialViewModel } from '../../../viewModel/registryCredentialViewModel';
 import { isNullOrUndefined } from '../../../utilities/parseUtilities';
 import { PATHS } from '../../../utilities/constants';
@@ -404,7 +404,8 @@ export const getBaseEdgeModuleSpecificationViewModel = (moduleSpecification: Bas
 
             const environmentVariableViewModel: EnvironmentVariableViewModel  = {
                 name: key,
-                value: envVariable.value
+                value: envVariable.value.toString(),
+                valueType: getEnvironmentVariableValueType(name, key, envVariable.value, systemModule)
             };
 
             return environmentVariableViewModel;
@@ -414,4 +415,24 @@ export const getBaseEdgeModuleSpecificationViewModel = (moduleSpecification: Bas
     }
 
     return baseModuleSpecificationViewModel;
+};
+
+// tslint:disable-next-line:no-any
+export const getEnvironmentVariableValueType = (name: string, key: string, value: any, systemModule: boolean): EnvironmentVariableValueType => {
+    const valueType = typeof(value);
+
+    if (valueType === EnvironmentVariableValueType.boolean ||
+        valueType === EnvironmentVariableValueType.string ||
+        valueType === EnvironmentVariableValueType.number) {
+        return valueType as EnvironmentVariableValueType;
+    }
+
+    throw new EdgeParseException([
+        PATHS.$EDGE_AGENT,
+        PATHS.DESIRED_PROPERTIES,
+        systemModule ? PATHS.SYSTEM_MODULES : PATHS.MODULES,
+        name,
+        PATHS.ENV,
+        key,
+        PATHS.VALUE].join('.'));
 };

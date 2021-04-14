@@ -6,6 +6,7 @@ import { $EdgeAgentReportedProperties } from '../model/$EdgeAgentReportedPropert
 import { EdgeModuleReport } from '../model/edgeModuleReport';
 import { EdgeModuleReportViewModel } from '../../../viewModel/edgeModuleReportViewModel';
 import { ensureDate } from '../../../utilities/parseUtilities';
+import { EnvironmentVariableValueType } from '../../../viewModel/environmentVariableViewModel';
 
 export const get$EdgeAgentReportedPropertiesViewModel = (edgeAgentReport: $EdgeAgentReportedProperties): $EdgeAgentReportedPropertiesViewModel => {
 
@@ -148,7 +149,8 @@ export const getEdgeModuleReportViewModel = (edgeModuleReport: EdgeModuleReport,
 
             edgeModuleReportViewModel.environmentVariables.push({
                 name: key,
-                value: env[key].value
+                value: env[key].value.toString(),
+                valueType: (typeof(env[key].value)) as EnvironmentVariableValueType,
             });
         });
     }

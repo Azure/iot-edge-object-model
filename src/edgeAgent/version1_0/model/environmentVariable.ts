@@ -2,5 +2,5 @@
 // Licensed under the MIT License.
 
 export interface EnvironmentVariable {
-    value: string;
+    value: string | boolean | number;
 }

@@ -73,6 +73,7 @@ describe('$EdgeAgentReportedPropertiesParser', () => {
             expect(result.edgeModuleReportViewModels[0].environmentVariables.length).toEqual(1);
             expect(result.edgeModuleReportViewModels[0].environmentVariables[0].name).toEqual('mySetting');
             expect(result.edgeModuleReportViewModels[0].environmentVariables[0].value).toEqual('mySettingValue');
+            expect(result.edgeModuleReportViewModels[0].environmentVariables[0].valueType).toEqual('string');
         });
     });
 

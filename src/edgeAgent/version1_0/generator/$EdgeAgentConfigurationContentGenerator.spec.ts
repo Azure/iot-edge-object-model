@@ -5,8 +5,9 @@ import 'jest';
 import { sample$EdgeAgentDesiredPropertiesViewModel } from '../../../utilities/testHelpers';
 import { BaseEdgeModuleSpecificationViewModel } from '../../../viewModel/baseEdgeModuleSpecificationViewModel';
 import { $EdgeAgentDesiredPropertiesViewModel } from '../../../viewModel/$EdgeAgentDesiredPropertiesViewModel';
-import { generate$EdgeAgentConfigurationContent, getEdgeAgentModuleSpecification, getEdgeHubModuleSpecification, getBaseModuleSpecification, populateRuntimeSettings } from './$EdgeAgentConfigurationContentGenerator';
+import { generate$EdgeAgentConfigurationContent, getEdgeAgentModuleSpecification, getEdgeHubModuleSpecification, getBaseModuleSpecification, populateRuntimeSettings, getEnvironmentVariableValue } from './$EdgeAgentConfigurationContentGenerator';
 import { $EdgeAgentDesiredProperties } from '../model/$EdgeAgentDesiredProperties';
+import { EnvironmentVariableValueType } from '../../../viewModel/environmentVariableViewModel';
 
 describe('$EdgeAgentConfigurationContentGenerator', () => {
     describe('generate$EdgeAgentConfigurationcContent', () => {
@@ -135,7 +136,8 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
                 environmentVariables: [
                     {
                         name: 'name1',
-                        value: null
+                        value: null,
+                        valueType: EnvironmentVariableValueType.string
                     }
                 ],
                 image: 'image',
@@ -154,7 +156,8 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
                 environmentVariables: [
                     {
                         name: 'name1',
-                        value: null
+                        value: null,
+                        valueType: EnvironmentVariableValueType.string
                     }
                 ],
                 image: 'image',
@@ -173,7 +176,8 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
                 environmentVariables: [
                     {
                         name: 'name1',
-                        value: null
+                        value: null,
+                        valueType: EnvironmentVariableValueType.string
                     }
                 ],
                 image: 'image',
@@ -276,6 +280,48 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
 
             populateRuntimeSettings(vm, desiredProperties);
             expect(desiredProperties.runtime.settings.registryCredentials).toBeUndefined();
+        });
+    });
+
+    describe('getEnvironmentVariableValue', () => {
+        it('returns expected value when value is falsy', () => {
+            expect(getEnvironmentVariableValue({
+                name: 'name1',
+                value: null,
+                valueType: EnvironmentVariableValueType.string
+            })).toEqual('');
+        });
+
+        it('returns expected value when type is boolean and value is not true', () => {
+            expect(getEnvironmentVariableValue({
+                name: 'name1',
+                value: 'false',
+                valueType: EnvironmentVariableValueType.boolean
+            })).toEqual(false);
+        });
+
+        it('returns expected value when type is boolean and value is true', () => {
+            expect(getEnvironmentVariableValue({
+                name: 'name1',
+                value: 'True',
+                valueType: EnvironmentVariableValueType.boolean
+            })).toEqual(true);
+        });
+
+        it('returns expected value when type is number', () => {
+            expect(getEnvironmentVariableValue({
+                name: 'name1',
+                value: '15.0002',
+                valueType: EnvironmentVariableValueType.number
+            })).toEqual(15.0002);
+        });
+
+        it('returns expected value when type is string', () => {
+            expect(getEnvironmentVariableValue({
+                name: 'name1',
+                value: '15.0002',
+                valueType: EnvironmentVariableValueType.string
+            })).toEqual('15.0002');
         });
     });
 });
