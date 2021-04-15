@@ -16,9 +16,11 @@ import {
     get$EdgeAgentRegistryCredentials,
     getEdgeAgentSpecificationViewModel,
     getEdgeHubSpecificationViewModel,
-    getBaseEdgeModuleSpecificationViewModel
+    getBaseEdgeModuleSpecificationViewModel,
+    getEnvironmentVariableValueType
 } from './$EdgeAgentDesiredPropertiesParser';
 import { sample$EdgeAgentModuleTwin } from '../../../utilities/testHelpers';
+import { EnvironmentVariableValueType } from '../../../viewModel/environmentVariableViewModel';
 
 describe('$EdgeAgentDesiredPropertiesParser', () => {
     describe('get$EdgeAgentDesiredPropertiesViewModel', () => {
@@ -34,6 +36,7 @@ describe('$EdgeAgentDesiredPropertiesParser', () => {
             expect(result.edgeAgentModuleSpecificationViewModel.environmentVariables.length).toEqual(1);
             expect(result.edgeAgentModuleSpecificationViewModel.environmentVariables[0].name).toEqual('edgeAgentVar1');
             expect(result.edgeAgentModuleSpecificationViewModel.environmentVariables[0].value).toEqual('edgeAgentVar1Value');
+            expect(result.edgeAgentModuleSpecificationViewModel.environmentVariables[0].valueType).toEqual('string');
             expect(result.edgeAgentModuleSpecificationViewModel.image).toEqual('mcr/azureiotedge-agent:1.0-preview');
             expect(result.edgeAgentModuleSpecificationViewModel.name).toEqual('edgeAgent');
             expect(result.edgeAgentModuleSpecificationViewModel.type).toEqual('docker');
@@ -44,6 +47,7 @@ describe('$EdgeAgentDesiredPropertiesParser', () => {
             expect(result.edgeHubModuleSpecificationViewModel.environmentVariables.length).toEqual(1);
             expect(result.edgeHubModuleSpecificationViewModel.environmentVariables[0].name).toEqual('edgeHubVar1');
             expect(result.edgeHubModuleSpecificationViewModel.environmentVariables[0].value).toEqual('edgeHubVar1Value');
+            expect(result.edgeHubModuleSpecificationViewModel.environmentVariables[0].valueType).toEqual('string');
             expect(result.edgeHubModuleSpecificationViewModel.image).toEqual('mcr/azureiotedge-hub:1.0-preview');
             expect(result.edgeHubModuleSpecificationViewModel.name).toEqual('edgeHub');
             expect(result.edgeHubModuleSpecificationViewModel.restartPolicy).toEqual('always');
@@ -58,6 +62,7 @@ describe('$EdgeAgentDesiredPropertiesParser', () => {
             expect(result.moduleSpecificationViewModels[0].environmentVariables.length).toEqual(1);
             expect(result.moduleSpecificationViewModels[0].environmentVariables[0].name).toEqual('edgeCustomModuleVar1');
             expect(result.moduleSpecificationViewModels[0].environmentVariables[0].value).toEqual('edgeCustomModuleVar1Value');
+            expect(result.moduleSpecificationViewModels[0].environmentVariables[0].valueType).toEqual('string');
             expect(result.moduleSpecificationViewModels[0].image).toEqual('mcr/azureiotedge-simulated-temperature-sensor:1.0-preview');
             expect(result.moduleSpecificationViewModels[0].name).toEqual('tempSensor');
             expect(result.moduleSpecificationViewModels[0].restartPolicy).toEqual('always');
@@ -71,12 +76,12 @@ describe('$EdgeAgentDesiredPropertiesParser', () => {
             expect(result.minDockerVersion).toEqual('v1.25');
             expect(result.runtimeType).toEqual('docker');
             expect(result.schemaVersion).toEqual('1.0');
-            expect(result.registyCredentials).not.toBeNull();
-            expect(result.registyCredentials.length).toEqual(1);
-            expect(result.registyCredentials[0].address).toEqual('address1');
-            expect(result.registyCredentials[0].username).toEqual('username1');
-            expect(result.registyCredentials[0].password).toEqual('password1');
-            expect(result.registyCredentials[0].name).toEqual('credential1');
+            expect(result.registryCredentials).not.toBeNull();
+            expect(result.registryCredentials.length).toEqual(1);
+            expect(result.registryCredentials[0].address).toEqual('address1');
+            expect(result.registryCredentials[0].username).toEqual('username1');
+            expect(result.registryCredentials[0].password).toEqual('password1');
+            expect(result.registryCredentials[0].name).toEqual('credential1');
         });
     });
 
@@ -292,6 +297,13 @@ describe('$EdgeAgentDesiredPropertiesParser', () => {
             expect(() => { getBaseEdgeModuleSpecificationViewModel(edgeAgentTwin.properties.desired.systemModules.edgeAgent, 'edgeAgent', true); }).toThrow();
         });
 
+        it('throws exception when create options is not a string', () => {
+            const edgeAgentTwin = sample$EdgeAgentModuleTwin();
+            (edgeAgentTwin.properties.desired.modules.tempSensor.settings.createOptions as any) = {hello: 'world'};
+
+            expect(() => { getBaseEdgeModuleSpecificationViewModel(edgeAgentTwin.properties.desired.modules.tempSensor, 'tempSensor'); }).toThrow();
+        });
+
         it('throws exception when createOptions are malformed', () => {
             const edgeAgentTwin = sample$EdgeAgentModuleTwin();
             edgeAgentTwin.properties.desired.modules.tempSensor.settings.createOptions = '{';
@@ -335,6 +347,24 @@ describe('$EdgeAgentDesiredPropertiesParser', () => {
             const edgeAgentTwin = sample$EdgeAgentModuleTwin();
             edgeAgentTwin.properties.desired.systemModules.edgeAgent.env = null;
             expect(getBaseEdgeModuleSpecificationViewModel(edgeAgentTwin.properties.desired.systemModules.edgeAgent, 'edgeAgent', true).environmentVariables.length).toEqual(0);
+        });
+    });
+
+    describe('getEnvironmentVariableValueType', () => {
+        it('returns expected value when value type is string', () => {
+            expect(getEnvironmentVariableValueType('name', 'key', 'value', false)).toEqual(EnvironmentVariableValueType.string);
+        });
+
+        it('returns expected value when value type is boolean', () => {
+            expect(getEnvironmentVariableValueType('name', 'key', false, false)).toEqual(EnvironmentVariableValueType.boolean);
+        });
+
+        it('returns expected value when value type is number', () => {
+            expect(getEnvironmentVariableValueType('name', 'key', 12.001, false)).toEqual(EnvironmentVariableValueType.number);
+        });
+
+        it('throws when value type is not enumerated', () => {
+            expect(() => getEnvironmentVariableValueType('name', 'key', { value: 'value'}, false)).toThrow();
         });
     });
 });

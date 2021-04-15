@@ -11,7 +11,7 @@ export interface $EdgeAgentDesiredPropertiesViewModel {
     runtimeType: string;
     minDockerVersion: string;
     loggingOptions: string;
-    registyCredentials: RegistryCredentialViewModel[];
+    registryCredentials: RegistryCredentialViewModel[];
     edgeAgentModuleSpecificationViewModel: EdgeAgentModuleSpecificationViewModel | null;
     edgeHubModuleSpecificationViewModel: EdgeHubModuleSpecificationViewModel | null;
     moduleSpecificationViewModels: EdgeModuleSpecificationViewModel[];

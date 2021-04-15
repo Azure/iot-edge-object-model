@@ -5,8 +5,9 @@ import 'jest';
 import { sample$EdgeAgentDesiredPropertiesViewModel } from '../../../utilities/testHelpers';
 import { BaseEdgeModuleSpecificationViewModel } from '../../../viewModel/baseEdgeModuleSpecificationViewModel';
 import { $EdgeAgentDesiredPropertiesViewModel } from '../../../viewModel/$EdgeAgentDesiredPropertiesViewModel';
-import { generate$EdgeAgentConfigurationContent, getEdgeAgentModuleSpecification, getEdgeHubModuleSpecification, getBaseModuleSpecification, populateRuntimeSettings } from './$EdgeAgentConfigurationContentGenerator';
+import { generate$EdgeAgentConfigurationContent, getEdgeAgentModuleSpecification, getEdgeHubModuleSpecification, getBaseModuleSpecification, populateRuntimeSettings, getEnvironmentVariableValue } from './$EdgeAgentConfigurationContentGenerator';
 import { $EdgeAgentDesiredProperties } from '../model/$EdgeAgentDesiredProperties';
+import { EnvironmentVariableValueType } from '../../../viewModel/environmentVariableViewModel';
 
 describe('$EdgeAgentConfigurationContentGenerator', () => {
     describe('generate$EdgeAgentConfigurationcContent', () => {
@@ -17,9 +18,9 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
             expect(result.runtime.settings.loggingOptions).toEqual(vm.loggingOptions);
             expect(result.runtime.settings.minDockerVersion).toEqual(vm.minDockerVersion);
             expect(Object.keys(result.runtime.settings.registryCredentials).length).toEqual(1);
-            expect(result.runtime.settings.registryCredentials[vm.registyCredentials[0].name].address).toEqual(vm.registyCredentials[0].address);
-            expect(result.runtime.settings.registryCredentials[vm.registyCredentials[0].name].password).toEqual(vm.registyCredentials[0].password);
-            expect(result.runtime.settings.registryCredentials[vm.registyCredentials[0].name].username).toEqual(vm.registyCredentials[0].username);
+            expect(result.runtime.settings.registryCredentials[vm.registryCredentials[0].name].address).toEqual(vm.registryCredentials[0].address);
+            expect(result.runtime.settings.registryCredentials[vm.registryCredentials[0].name].password).toEqual(vm.registryCredentials[0].password);
+            expect(result.runtime.settings.registryCredentials[vm.registryCredentials[0].name].username).toEqual(vm.registryCredentials[0].username);
             expect(result.runtime.type).toEqual(vm.runtimeType);
             expect(result.schemaVersion).toEqual(vm.schemaVersion);
 
@@ -135,7 +136,8 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
                 environmentVariables: [
                     {
                         name: 'name1',
-                        value: null
+                        value: null,
+                        valueType: EnvironmentVariableValueType.string
                     }
                 ],
                 image: 'image',
@@ -154,7 +156,8 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
                 environmentVariables: [
                     {
                         name: 'name1',
-                        value: null
+                        value: null,
+                        valueType: EnvironmentVariableValueType.string
                     }
                 ],
                 image: 'image',
@@ -173,7 +176,8 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
                 environmentVariables: [
                     {
                         name: 'name1',
-                        value: null
+                        value: null,
+                        valueType: EnvironmentVariableValueType.string
                     }
                 ],
                 image: 'image',
@@ -195,7 +199,7 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
                 loggingOptions: '',
                 minDockerVersion: 'minDockerVersion',
                 moduleSpecificationViewModels: [],
-                registyCredentials: [],
+                registryCredentials: [],
                 runtimeType: 'runtimeVersion',
                 schemaVersion: 'schemaVersion'
             };
@@ -225,7 +229,7 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
                 loggingOptions: '',
                 minDockerVersion: '',
                 moduleSpecificationViewModels: [],
-                registyCredentials: [],
+                registryCredentials: [],
                 runtimeType: 'runtimeVersion',
                 schemaVersion: 'schemaVersion',
             };
@@ -256,7 +260,7 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
                 loggingOptions: '',
                 minDockerVersion: '',
                 moduleSpecificationViewModels: [],
-                registyCredentials: [],
+                registryCredentials: [],
                 runtimeType: 'runtimeVersion',
                 schemaVersion: 'schemaVersion',
             };
@@ -276,6 +280,48 @@ describe('$EdgeAgentConfigurationContentGenerator', () => {
 
             populateRuntimeSettings(vm, desiredProperties);
             expect(desiredProperties.runtime.settings.registryCredentials).toBeUndefined();
+        });
+    });
+
+    describe('getEnvironmentVariableValue', () => {
+        it('returns expected value when value is falsy', () => {
+            expect(getEnvironmentVariableValue({
+                name: 'name1',
+                value: null,
+                valueType: EnvironmentVariableValueType.string
+            })).toEqual('');
+        });
+
+        it('returns expected value when type is boolean and value is not true', () => {
+            expect(getEnvironmentVariableValue({
+                name: 'name1',
+                value: 'false',
+                valueType: EnvironmentVariableValueType.boolean
+            })).toEqual(false);
+        });
+
+        it('returns expected value when type is boolean and value is true', () => {
+            expect(getEnvironmentVariableValue({
+                name: 'name1',
+                value: 'True',
+                valueType: EnvironmentVariableValueType.boolean
+            })).toEqual(true);
+        });
+
+        it('returns expected value when type is number', () => {
+            expect(getEnvironmentVariableValue({
+                name: 'name1',
+                value: '15.0002',
+                valueType: EnvironmentVariableValueType.number
+            })).toEqual(15.0002);
+        });
+
+        it('returns expected value when type is string', () => {
+            expect(getEnvironmentVariableValue({
+                name: 'name1',
+                value: '15.0002',
+                valueType: EnvironmentVariableValueType.string
+            })).toEqual('15.0002');
         });
     });
 });

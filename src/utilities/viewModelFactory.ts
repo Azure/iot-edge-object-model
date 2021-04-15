@@ -39,7 +39,7 @@ export const new$EdgeAgentDesiredPropertiesViewModelWithDefaults = (): $EdgeAgen
         loggingOptions: $EDGE_AGENT.LOGGING_OPTIONS,
         minDockerVersion: $EDGE_AGENT.MIN_DOCKER_VERSION,
         moduleSpecificationViewModels: [],
-        registyCredentials: [],
+        registryCredentials: [],
         runtimeType: $EDGE_AGENT.RUNTIME_TYPE,
         schemaVersion: Object.keys($EdgeAgentSchemaVersions).slice(-1)[0]
     };

@@ -9,6 +9,7 @@ import { new$EdgeAgentDesiredPropertiesViewModelWithDefaults } from './viewModel
 import { EdgeAgentModuleSpecificationViewModel } from '../viewModel/edgeAgentModuleSpecificationViewModel';
 import { EdgeHubModuleSpecificationViewModel } from '../viewModel/edgeHubModuleSpecificationViewModel';
 import { EdgeModuleSpecificationViewModel } from '../viewModel/edgeModuleSpecificationViewModel';
+import { EnvironmentVariableValueType } from '../viewModel/environmentVariableViewModel';
 
 export const newEdgeAgentModuleSpecificationViewModel = (): EdgeAgentModuleSpecificationViewModel => {
     return newEdgeModuleSpecificationViewModel() as EdgeAgentModuleSpecificationViewModel;
@@ -78,7 +79,8 @@ export const sample$EdgeAgentDesiredPropertiesViewModel = (): $EdgeAgentDesiredP
     vm.edgeAgentModuleSpecificationViewModel.environmentVariables.push(
         {
             name: 'edgeAgentEnv1',
-            value: 'edgeAgentEnv1Value'
+            value: 'edgeAgentEnv1Value',
+            valueType: EnvironmentVariableValueType.string
         }
     );
 
@@ -92,7 +94,8 @@ export const sample$EdgeAgentDesiredPropertiesViewModel = (): $EdgeAgentDesiredP
     vm.edgeHubModuleSpecificationViewModel.environmentVariables.push(
         {
             name: 'edgeHubEnv1',
-            value: 'edgeHubEnv1Value'
+            value: 'edgeHubEnv1Value',
+            valueType: EnvironmentVariableValueType.string
         }
     );
     vm.edgeHubModuleSpecificationViewModel.image = 'http://hubImage';
@@ -103,7 +106,7 @@ export const sample$EdgeAgentDesiredPropertiesViewModel = (): $EdgeAgentDesiredP
 
     vm.loggingOptions = 'loggingOptions';
     vm.minDockerVersion = 'v1.25';
-    vm.registyCredentials.push({
+    vm.registryCredentials.push({
         address: 'reg1Address',
         name: 'reg1',
         password: 'reg1Password',
@@ -123,7 +126,8 @@ export const sample$EdgeAgentDesiredPropertiesViewModel = (): $EdgeAgentDesiredP
     };
     moduleSpecification.environmentVariables.push({
         name: 'moduleEnv1',
-        value: 'moduleEnv1Value'
+        value: 'moduleEnv1Value',
+        valueType: EnvironmentVariableValueType.string
     });
     moduleSpecification.image = 'http://moduleImage';
     moduleSpecification.imagePullPolicy = 'never';

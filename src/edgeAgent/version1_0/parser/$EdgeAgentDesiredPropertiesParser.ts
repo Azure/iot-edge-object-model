@@ -9,7 +9,7 @@ import { EdgeAgentModuleSpecificationViewModel } from '../../../viewModel/edgeAg
 import { EdgeHubModuleSpecificationViewModel } from '../../../viewModel/edgeHubModuleSpecificationViewModel';
 import { EdgeModuleSpecificationViewModel } from '../../../viewModel/edgeModuleSpecificationViewModel';
 import { EdgeParseException } from '../../../errors/edgeParseException';
-import { EnvironmentVariableViewModel } from '../../../viewModel/environmentVariableViewModel';
+import { EnvironmentVariableViewModel, EnvironmentVariableValueType } from '../../../viewModel/environmentVariableViewModel';
 import { RegistryCredentialViewModel } from '../../../viewModel/registryCredentialViewModel';
 import { isNullOrUndefined } from '../../../utilities/parseUtilities';
 import { PATHS } from '../../../utilities/constants';
@@ -24,7 +24,7 @@ export const get$EdgeAgentDesiredPropertiesViewModel = (edgeAgentDesiredProperti
         loggingOptions: get$EdgeAgentLoggingOptions(edgeAgentDesiredProperties),
         minDockerVersion: get$EdgeAgentMinDockerVersion(edgeAgentDesiredProperties),
         moduleSpecificationViewModels: getModuleSpecificationViewModels(edgeAgentDesiredProperties),
-        registyCredentials: get$EdgeAgentRegistryCredentials(edgeAgentDesiredProperties),
+        registryCredentials: get$EdgeAgentRegistryCredentials(edgeAgentDesiredProperties),
         runtimeType: get$EdgeAgentRuntimeType(edgeAgentDesiredProperties),
         schemaVersion: get$EdgeAgentSchemaVersion(edgeAgentDesiredProperties)
     };
@@ -335,6 +335,13 @@ export const getBaseEdgeModuleSpecificationViewModel = (moduleSpecification: Bas
             PATHS.SETTINGS].join('.'));
     }
 
+    if (moduleSpecification.settings.createOptions && typeof(moduleSpecification.settings.createOptions) !== 'string') {
+        throw new EdgeParseException([
+            PATHS.$EDGE_AGENT,
+            PATHS.SETTINGS,
+            PATHS.CREATE_OPTIONS].join('.'));
+    }
+
     if (moduleSpecification.settings.createOptions01) {
         const settings = moduleSpecification.settings;
         settings.createOptions = [settings.createOptions, settings.createOptions01, settings.createOptions02, settings.createOptions03, settings.createOptions04, settings.createOptions05, settings.createOptions06, settings.createOptions07].join('');
@@ -397,7 +404,8 @@ export const getBaseEdgeModuleSpecificationViewModel = (moduleSpecification: Bas
 
             const environmentVariableViewModel: EnvironmentVariableViewModel  = {
                 name: key,
-                value: envVariable.value
+                value: envVariable.value.toString(),
+                valueType: getEnvironmentVariableValueType(name, key, envVariable.value, systemModule)
             };
 
             return environmentVariableViewModel;
@@ -407,4 +415,24 @@ export const getBaseEdgeModuleSpecificationViewModel = (moduleSpecification: Bas
     }
 
     return baseModuleSpecificationViewModel;
+};
+
+// tslint:disable-next-line:no-any
+export const getEnvironmentVariableValueType = (name: string, key: string, value: any, systemModule: boolean): EnvironmentVariableValueType => {
+    const valueType = typeof(value);
+
+    if (valueType === EnvironmentVariableValueType.boolean ||
+        valueType === EnvironmentVariableValueType.string ||
+        valueType === EnvironmentVariableValueType.number) {
+        return valueType as EnvironmentVariableValueType;
+    }
+
+    throw new EdgeParseException([
+        PATHS.$EDGE_AGENT,
+        PATHS.DESIRED_PROPERTIES,
+        systemModule ? PATHS.SYSTEM_MODULES : PATHS.MODULES,
+        name,
+        PATHS.ENV,
+        key,
+        PATHS.VALUE].join('.'));
 };

@@ -14,6 +14,7 @@ import { chunkStringByBytes } from '../../../utilities/parseUtilities';
 import { EnvironmentVariable } from '../model/environmentVariable';
 import { RegistryCredential } from '../model/registryCredential';
 import { StringMap } from '../../../utilities/stringMap';
+import { EnvironmentVariableValueType, EnvironmentVariableViewModel } from '../../../viewModel/environmentVariableViewModel';
 
 export const generate$EdgeAgentConfigurationContent = (edgeAgentDesiredPropertiesViewModel: $EdgeAgentDesiredPropertiesViewModel): object => {
     const edgeAgentModuleSpecification = getEdgeAgentModuleSpecification(edgeAgentDesiredPropertiesViewModel);
@@ -113,7 +114,7 @@ export const getBaseModuleSpecification = <T extends BaseEdgeModuleSpecification
         baseEdgeModuleSpecificationViewModel.environmentVariables.forEach(environmentVariable => {
 
             envEntries[environmentVariable.name] = {
-                value: environmentVariable.value || ''
+                value: getEnvironmentVariableValue(environmentVariable)
             };
         });
 
@@ -140,11 +141,11 @@ export const populateRuntimeSettings = (edgeAgentDesiredPropertiesViewModel: $Ed
     }
 
     // registryCredential
-    if (edgeAgentDesiredPropertiesViewModel.registyCredentials &&
-        edgeAgentDesiredPropertiesViewModel.registyCredentials.length > 0) {
+    if (edgeAgentDesiredPropertiesViewModel.registryCredentials &&
+        edgeAgentDesiredPropertiesViewModel.registryCredentials.length > 0) {
 
         const registryCredentials: StringMap<RegistryCredential> = {};
-        edgeAgentDesiredPropertiesViewModel.registyCredentials.forEach(registryCredential => {
+        edgeAgentDesiredPropertiesViewModel.registryCredentials.forEach(registryCredential => {
 
             registryCredentials[registryCredential.name] = {
                 address: registryCredential.address,
@@ -162,4 +163,20 @@ export const populateModules = (edgeAgentDesiredPropertiesViewModel: $EdgeAgentD
         const moduleSpecification = getEdgeModuleSpecification(moduleSpecificationViewModel);
         edgeAgentDesiredProperties.modules[moduleSpecificationViewModel.name] = moduleSpecification;
     });
+};
+
+export const getEnvironmentVariableValue = (environmentVariable: EnvironmentVariableViewModel): string | number | boolean => {
+    if (!environmentVariable.value) {
+        return '';
+    }
+
+    if (environmentVariable.valueType === EnvironmentVariableValueType.boolean) {
+        return environmentVariable.value.toLowerCase() === 'true';
+    }
+
+    if (environmentVariable.valueType === EnvironmentVariableValueType.number) {
+        return Number(environmentVariable.value);
+    }
+
+    return environmentVariable.value;
 };
