@@ -6,4 +6,5 @@ export interface $EdgeHubDesiredPropertiesViewModel {
     schemaVersion: string;
     routeViewModels: RouteViewModel[];
     storeAndForwardTimeToLive: number | null;
+    mqttBroker: string;
 }

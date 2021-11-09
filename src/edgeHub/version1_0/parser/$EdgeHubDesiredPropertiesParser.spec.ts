@@ -3,7 +3,7 @@
 
 import 'jest';
 import { sampleConfigurationContent } from '../../../utilities/testHelpers';
-import { get$EdgeHubDesiredPropertiesViewModel, getRouteViewModel } from './$EdgeHubDesiredPropertiesParser';
+import { get$EdgeHubDesiredPropertiesViewModel, getMqttBroker, getRouteViewModel } from './$EdgeHubDesiredPropertiesParser';
 import { RoutePathType } from '../../../viewModel/routeViewModel';
 
 describe('$EdgeHubDesiredPropertiesParser', () => {
@@ -22,6 +22,7 @@ describe('$EdgeHubDesiredPropertiesParser', () => {
                     value: 'FROM /* INTO $upstream'
                 }
             ]);
+            expect(edgeHubViewModel.mqttBroker).toEqual(JSON.stringify({"bridges": [], "authorizations": []}, null, 4));
         });
 
         it('throws exception if schemaVersion is not defined', () => {
@@ -89,6 +90,16 @@ describe('$EdgeHubDesiredPropertiesParser', () => {
                 timeToLiveSecs: undefined,
                 value: ''
             });
+        });
+    });
+
+    describe('getMqttBroker', () => {
+        it('returns MqttBroker when value is string', () => {
+            expect(getMqttBroker('test')).toEqual('test');
+        });
+
+        it('returns MqttBroker when value is object', () => {
+            expect(getMqttBroker({"bridges": [], "authorizations": []})).toEqual(JSON.stringify({"bridges": [], "authorizations": []}, null, 4));
         });
     });
 });

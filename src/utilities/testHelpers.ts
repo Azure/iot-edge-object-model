@@ -62,6 +62,7 @@ export const sampleEdgeModuleTwinsViewModel = (): $EdgeModuleTwinsViewModel => {
 
 export const sample$EdgeHubDesiredPropertiesViewModel = (): $EdgeHubDesiredPropertiesViewModel => {
     return {
+        mqttBroker: '',
         routeViewModels: [{
             name: 'routeName',
             value: 'routeValue'
@@ -299,6 +300,7 @@ export const sampleConfigurationContent = () => {
             },
             $edgeHub: {
                 'properties.desired': {
+                    mqttBroker: {"bridges": [], "authorizations": []},
                     routes,
                     schemaVersion: '1.1',
                     storeAndForwardConfiguration: {

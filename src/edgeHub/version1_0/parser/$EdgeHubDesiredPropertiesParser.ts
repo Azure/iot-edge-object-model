@@ -9,6 +9,7 @@ import { Route } from '../model/route';
 
 export const get$EdgeHubDesiredPropertiesViewModel = (edgeHubDesiredProperties: $EdgeHubDesiredProperties): $EdgeHubDesiredPropertiesViewModel => {
     const $edgeHubDesiredPropertiesViewModel =  {
+        mqttBroker: get$EdgeMqttBroker(edgeHubDesiredProperties),
         routeViewModels: get$EdgeHubRoutes(edgeHubDesiredProperties),
         schemaVersion: get$EdgeHubSchemaVersion(edgeHubDesiredProperties),
         storeAndForwardTimeToLive: get$EdgeHubStoreAndForwardTimeToLive(edgeHubDesiredProperties)
@@ -65,6 +66,24 @@ export const get$EdgeHubStoreAndForwardTimeToLive = (edgeHubDesiredProperties: $
     }
 
     return timeToLiveSecs;
+};
+
+export const get$EdgeMqttBroker =  (edgeHubDesiredProperties: $EdgeHubDesiredProperties): string => {
+    if (!edgeHubDesiredProperties.mqttBroker) {
+        return '';
+    }
+
+    return getMqttBroker(edgeHubDesiredProperties.mqttBroker);
+};
+
+export const getMqttBroker = (mqttValue: string | object): string => {
+    if (typeof mqttValue === 'string') {
+        return mqttValue;
+    }
+    else {
+        const JSON_INDENT = 4;
+        return JSON.stringify(mqttValue, null, JSON_INDENT);
+    }
 };
 
 export const getRouteViewModel = (key: string, routeValue: string | Route, routePathType?: RoutePathType): RouteViewModel => {

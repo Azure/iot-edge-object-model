@@ -14,6 +14,15 @@ export const generate$EdgeHubConfigurationContent = (edgeHubDesiredPropertiesVie
         }
     };
 
+    if (edgeHubDesiredPropertiesViewModel.mqttBroker) {
+        try {
+            edgeHubDesiredProperties.mqttBroker = JSON.parse(edgeHubDesiredPropertiesViewModel.mqttBroker);
+        }
+        catch {
+            edgeHubDesiredProperties.mqttBroker = edgeHubDesiredPropertiesViewModel.mqttBroker;
+        }
+    }
+
     return edgeHubDesiredProperties;
 };
 

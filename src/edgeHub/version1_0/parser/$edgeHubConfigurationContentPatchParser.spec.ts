@@ -8,6 +8,7 @@ describe('get$EdgeHubPatchEntries', () => {
     it('returns specified object given a falsy value', () => {
         expect(get$EdgeHubPatchEntries(undefined)).toEqual({
             additionalEdgeHubEntries: {},
+            mqttBroker: '',
             routeViewModels: [],
         });
     });
@@ -15,6 +16,7 @@ describe('get$EdgeHubPatchEntries', () => {
     it('returns specified object given empty object', () => {
         expect(get$EdgeHubPatchEntries({})).toEqual({
             additionalEdgeHubEntries: {},
+            mqttBroker: '',
             routeViewModels: [],
         });
     });
@@ -22,6 +24,9 @@ describe('get$EdgeHubPatchEntries', () => {
     it('returns value to specification', () => {
         const $edgeHub = {
             'properties.desired.a': 'a',
+            'properties.desired.mqttBroker': 'broker',
+            'properties.desired.mqttBroker.bridges': 'bridge1',
+            'properteis.desired.mqttBroker.authorizations': `['identities': []]`,
             'properties.desired.routes': { myRoutes: 'route'},
             'properties.desired.routes.y': 'value',
             'properties.desired.routes.y.z': 'subRoute',
@@ -29,10 +34,12 @@ describe('get$EdgeHubPatchEntries', () => {
         };
 
         const result = get$EdgeHubPatchEntries($edgeHub);
-        expect(Object.keys(result.additionalEdgeHubEntries)).toHaveLength(3); // tslint:disable-line:no-magic-numbers
+        expect(Object.keys(result.additionalEdgeHubEntries)).toHaveLength(5); // tslint:disable-line:no-magic-numbers
         expect(result.additionalEdgeHubEntries['properties.desired.a']).toEqual('a');
         expect(result.additionalEdgeHubEntries['properties.desired.y.z.alpha']).toEqual('alpha');
         expect(result.additionalEdgeHubEntries['properties.desired.routes.y.z']).toEqual('subRoute');
+        expect(result.additionalEdgeHubEntries['properties.desired.mqttBroker.bridges']).toEqual('bridge1');
+        expect(result.additionalEdgeHubEntries['properteis.desired.mqttBroker.authorizations']).toEqual(`['identities': []]`);
 
         expect(result.routeViewModels).toEqual([
             {
@@ -46,6 +53,8 @@ describe('get$EdgeHubPatchEntries', () => {
                 value: 'value'
             }
         ]);
+
+        expect(result.mqttBroker).toEqual('broker');
     });
 });
 

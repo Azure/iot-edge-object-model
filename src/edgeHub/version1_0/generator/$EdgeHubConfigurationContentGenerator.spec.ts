@@ -10,6 +10,7 @@ describe('$EdgeHubConfigurationContentGenerator', () => {
     describe('generate$EdgeHubConfigurationContent', () => {
         it ('generates hub configuration content', () => {
             const edgeHubDesiredPropertiesViewModel: $EdgeHubDesiredPropertiesViewModel = {
+                mqttBroker: `{"bridges": []}`,
                 routeViewModels: [
                     {
                         name: 'route1',
@@ -44,6 +45,7 @@ describe('$EdgeHubConfigurationContentGenerator', () => {
                     timeToLiveSecs: undefined
                 }
             });
+            expect(edgeHubDesiredProperties.mqttBroker).toEqual({bridges: []});
             expect(edgeHubDesiredProperties.schemaVersion).toEqual('schemaVersion');
             expect(edgeHubDesiredProperties.storeAndForwardConfiguration.timeToLiveSecs).toEqual(edgeHubDesiredPropertiesViewModel.storeAndForwardTimeToLive);
         });

@@ -27,9 +27,20 @@ export const generate$EdgeHubConfigurationContentPatch = (patchEntries: $EdgeHub
         }
     });
 
+    if (patchEntries.mqttBroker) {
+        const mqttBrokerPrefix = `${PATHS.DESIRED_PROPERTIES}.${PATHS.MQTT_BROKER}`;
+        try {
+            patchContent[mqttBrokerPrefix] = JSON.parse(patchEntries.mqttBroker);
+        }
+        catch {
+            patchContent[mqttBrokerPrefix] = patchEntries.mqttBroker;
+        }
+    }
+
     const routeNames = new Set(routeViewModels.map(s => s.name));
     Object.keys(additionalEdgeHubEntries).forEach(key => {
-        if (!conflictWithRouteEntry(key, routeNames)) {
+        if (!conflictWithRouteEntry(key, routeNames) &&
+            !conflictWithMqttBrokerEntry(key, patchEntries.mqttBroker)) {
             patchContent[key] = additionalEdgeHubEntries[key];
         }
     });
@@ -54,6 +65,18 @@ export const conflictWithRouteEntry = (key: string, routeNames: Set<string>): bo
             routeNames.has(pathArray[customRouteDepth - 1])) {
             return true;
         }
+    }
+
+    return false;
+};
+
+export const conflictWithMqttBrokerEntry = (key: string, mqttBrokerContent: string): boolean => {
+    if (!mqttBrokerContent) {
+        return false;
+    }
+
+    if (key.startsWith(`${PATHS.DESIRED_PROPERTIES}.${PATHS.MQTT_BROKER}`)) {
+        return true;
     }
 
     return false;
