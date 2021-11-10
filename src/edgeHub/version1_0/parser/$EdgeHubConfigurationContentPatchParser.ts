@@ -9,7 +9,6 @@ import { RoutePathType } from '../../../viewModel/routeViewModel';
 export const get$EdgeHubPatchEntries = ($edgeHub: object): $EdgeHubPatchEntries => {
     const entries: $EdgeHubPatchEntries = {
         additionalEdgeHubEntries: {},
-        mqttBroker: '',
         routeViewModels: []
     };
 
@@ -74,10 +73,10 @@ export const filterRoutePaths = (payload: Payload): boolean => {
 };
 
 export const filterMqttBrokerPaths = (payload: Payload): boolean => {
-    const routesPathDepth = 3; // properties.desired.mqttBroker.
+    const mqttPathDepth = 3; // properties.desired.mqttBroker.
     const { $edgeEntries, $edgeObject, key, pathArray } = payload;
 
-    if (pathArray.length === routesPathDepth && pathArray[routesPathDepth - 1] === PATHS.MQTT_BROKER) {
+    if (pathArray.length === mqttPathDepth && pathArray[mqttPathDepth - 1] === PATHS.MQTT_BROKER) {
         const mqttBroker = $edgeObject[key];
         $edgeEntries.mqttBroker = getMqttBroker(mqttBroker);
         return true;

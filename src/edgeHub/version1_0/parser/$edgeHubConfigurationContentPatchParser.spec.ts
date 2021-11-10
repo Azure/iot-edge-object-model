@@ -8,7 +8,6 @@ describe('get$EdgeHubPatchEntries', () => {
     it('returns specified object given a falsy value', () => {
         expect(get$EdgeHubPatchEntries(undefined)).toEqual({
             additionalEdgeHubEntries: {},
-            mqttBroker: '',
             routeViewModels: [],
         });
     });
@@ -16,7 +15,6 @@ describe('get$EdgeHubPatchEntries', () => {
     it('returns specified object given empty object', () => {
         expect(get$EdgeHubPatchEntries({})).toEqual({
             additionalEdgeHubEntries: {},
-            mqttBroker: '',
             routeViewModels: [],
         });
     });
@@ -26,7 +24,7 @@ describe('get$EdgeHubPatchEntries', () => {
             'properties.desired.a': 'a',
             'properties.desired.mqttBroker': 'broker',
             'properties.desired.mqttBroker.bridges': 'bridge1',
-            'properteis.desired.mqttBroker.authorizations': `['identities': []]`,
+            'properties.desired.mqttBroker.authorizations': `['identities': []]`,
             'properties.desired.routes': { myRoutes: 'route'},
             'properties.desired.routes.y': 'value',
             'properties.desired.routes.y.z': 'subRoute',
@@ -39,7 +37,7 @@ describe('get$EdgeHubPatchEntries', () => {
         expect(result.additionalEdgeHubEntries['properties.desired.y.z.alpha']).toEqual('alpha');
         expect(result.additionalEdgeHubEntries['properties.desired.routes.y.z']).toEqual('subRoute');
         expect(result.additionalEdgeHubEntries['properties.desired.mqttBroker.bridges']).toEqual('bridge1');
-        expect(result.additionalEdgeHubEntries['properteis.desired.mqttBroker.authorizations']).toEqual(`['identities': []]`);
+        expect(result.additionalEdgeHubEntries['properties.desired.mqttBroker.authorizations']).toEqual(`['identities': []]`);
 
         expect(result.routeViewModels).toEqual([
             {

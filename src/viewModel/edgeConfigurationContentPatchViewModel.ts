@@ -15,7 +15,7 @@ export interface $EdgeAgentPatchEntries {
 export interface $EdgeHubPatchEntries {
     routeViewModels: RouteViewModel[];
     additionalEdgeHubEntries: StringMap<string | object>;
-    mqttBroker: string;
+    mqttBroker?: string;
 }
 
 export type EdgeConfigurationContentPatchViewModel = $EdgeAgentPatchEntries & $EdgeHubPatchEntries;

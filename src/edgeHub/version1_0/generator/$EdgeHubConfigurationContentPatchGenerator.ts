@@ -33,7 +33,7 @@ export const generate$EdgeHubConfigurationContentPatch = (patchEntries: $EdgeHub
             patchContent[mqttBrokerPrefix] = JSON.parse(patchEntries.mqttBroker);
         }
         catch {
-            patchContent[mqttBrokerPrefix] = patchEntries.mqttBroker;
+            // intentionally swallow the error
         }
     }
 
@@ -70,7 +70,7 @@ export const conflictWithRouteEntry = (key: string, routeNames: Set<string>): bo
     return false;
 };
 
-export const conflictWithMqttBrokerEntry = (key: string, mqttBrokerContent: string): boolean => {
+export const conflictWithMqttBrokerEntry = (key: string, mqttBrokerContent?: string): boolean => {
     if (!mqttBrokerContent) {
         return false;
     }

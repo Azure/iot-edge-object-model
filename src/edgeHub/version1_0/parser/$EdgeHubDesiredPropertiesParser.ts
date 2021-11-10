@@ -81,8 +81,7 @@ export const getMqttBroker = (mqttValue: string | object): string => {
         return mqttValue;
     }
     else {
-        const JSON_INDENT = 4;
-        return JSON.stringify(mqttValue, null, JSON_INDENT);
+        return JSON.stringify(mqttValue);
     }
 };
 

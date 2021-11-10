@@ -300,7 +300,7 @@ export const sampleConfigurationContent = () => {
             },
             $edgeHub: {
                 'properties.desired': {
-                    mqttBroker: {"bridges": [], "authorizations": []},
+                    mqttBroker: {bridges: [], authorizations: []},
                     routes,
                     schemaVersion: '1.1',
                     storeAndForwardConfiguration: {

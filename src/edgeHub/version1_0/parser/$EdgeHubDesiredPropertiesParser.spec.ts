@@ -22,7 +22,7 @@ describe('$EdgeHubDesiredPropertiesParser', () => {
                     value: 'FROM /* INTO $upstream'
                 }
             ]);
-            expect(edgeHubViewModel.mqttBroker).toEqual(JSON.stringify({"bridges": [], "authorizations": []}, null, 4));
+            expect(edgeHubViewModel.mqttBroker).toEqual(JSON.stringify({bridges: [], authorizations: []}));
         });
 
         it('throws exception if schemaVersion is not defined', () => {
@@ -99,7 +99,7 @@ describe('$EdgeHubDesiredPropertiesParser', () => {
         });
 
         it('returns MqttBroker when value is object', () => {
-            expect(getMqttBroker({"bridges": [], "authorizations": []})).toEqual(JSON.stringify({"bridges": [], "authorizations": []}, null, 4));
+            expect(getMqttBroker({"bridges": [], "authorizations": []})).toEqual(JSON.stringify({bridges: [], authorizations: []}));
         });
     });
 });

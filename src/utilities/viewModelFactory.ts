@@ -49,7 +49,6 @@ export const new$EdgeAgentDesiredPropertiesViewModelWithDefaults = (): $EdgeAgen
 
 export const new$EdgeHubDesiredPropertiesViewModelWithDefaults = (): $EdgeHubDesiredPropertiesViewModel => {
     return {
-        mqttBroker: '',
         routeViewModels: $EDGE_HUB.ROUTES,
         schemaVersion: Object.keys($EdgeHubSchemaVersions).slice(-1)[0],
         storeAndForwardTimeToLive: $EDGE_HUB.STORE_AND_FORWARD_TIME_TO_LIVE
