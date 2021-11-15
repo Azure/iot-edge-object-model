@@ -15,12 +15,7 @@ export const generate$EdgeHubConfigurationContent = (edgeHubDesiredPropertiesVie
     };
 
     if (edgeHubDesiredPropertiesViewModel.mqttBroker) {
-        try {
-            edgeHubDesiredProperties.mqttBroker = JSON.parse(edgeHubDesiredPropertiesViewModel.mqttBroker);
-        }
-        catch {
-            // intentionally swallow the error
-        }
+        edgeHubDesiredProperties.mqttBroker = JSON.parse(edgeHubDesiredPropertiesViewModel.mqttBroker);
     }
 
     return edgeHubDesiredProperties;

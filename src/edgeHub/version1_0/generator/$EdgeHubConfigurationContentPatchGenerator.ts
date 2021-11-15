@@ -29,12 +29,7 @@ export const generate$EdgeHubConfigurationContentPatch = (patchEntries: $EdgeHub
 
     if (patchEntries.mqttBroker) {
         const mqttBrokerPrefix = `${PATHS.DESIRED_PROPERTIES}.${PATHS.MQTT_BROKER}`;
-        try {
-            patchContent[mqttBrokerPrefix] = JSON.parse(patchEntries.mqttBroker);
-        }
-        catch {
-            // intentionally swallow the error
-        }
+        patchContent[mqttBrokerPrefix] = JSON.parse(patchEntries.mqttBroker);
     }
 
     const routeNames = new Set(routeViewModels.map(s => s.name));
