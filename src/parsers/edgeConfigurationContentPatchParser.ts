@@ -15,6 +15,7 @@ export const toEdgeConfigurationContentPatchViewModel = (modulesContent: StringM
         additionalEdgeAgentEntries: edgeAgentEntries.additionalEdgeAgentEntries,
         additionalEdgeHubEntries: edgeHubEntries.additionalEdgeHubEntries,
         moduleSpecificationViewModels: edgeAgentEntries.moduleSpecificationViewModels,
+        mqttBroker: edgeHubEntries.mqttBroker,
         registryCredentials: edgeAgentEntries.registryCredentials,
         routeViewModels: edgeHubEntries.routeViewModels
     };

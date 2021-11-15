@@ -8,7 +8,8 @@ export enum EdgeAgentSchemaFeatures {
 
 export enum EdgeHubSchemaFeatures {
     ROUTE_PRIORITY = 'ROUTE_PRIORITY',
-    ROUTE_TIME_TO_LIVE = 'ROUTE_TIME_TO_LIVE'
+    ROUTE_TIME_TO_LIVE = 'ROUTE_TIME_TO_LIVE',
+    MQTT = 'MQTT'
 }
 
 interface EdgeSchemaVersion {
@@ -38,6 +39,12 @@ export const $EdgeHubSchemaVersions: StringMap<EdgeSchemaVersion> = {
         newFeatures: [
             EdgeHubSchemaFeatures.ROUTE_PRIORITY,
             EdgeHubSchemaFeatures.ROUTE_TIME_TO_LIVE
+        ],
+        removedFeatures: []
+    },
+    '1.2': {
+        newFeatures: [
+            EdgeHubSchemaFeatures.MQTT
         ],
         removedFeatures: []
     }

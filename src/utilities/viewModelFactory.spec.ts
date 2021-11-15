@@ -25,7 +25,7 @@ describe('viewModelFactory', () => {
 
     describe('new$EdgeHubDesiredPropertiesViewModel', () => {
         it('uses latest version in new$EdgeHubDesiredPropertiesViewModel', () => {
-            expect(new$EdgeHubDesiredPropertiesViewModelWithDefaults().schemaVersion).toEqual('1.1');
+            expect(new$EdgeHubDesiredPropertiesViewModelWithDefaults().schemaVersion).toEqual('1.2');
         });
     });
 });

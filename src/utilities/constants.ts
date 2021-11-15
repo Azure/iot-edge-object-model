@@ -74,6 +74,7 @@ export const PATHS = {
     LOGGING_OPTIONS: 'loggingOptions',
     MIN_DOCKER_VERSION: 'minDockerVersion',
     MODULES: 'modules',
+    MQTT_BROKER: 'mqttBroker',
     PASSWORD: 'password',
     PROPERTIES: 'properties',
     REGISTRY_CREDENTIALS: 'registryCredentials',

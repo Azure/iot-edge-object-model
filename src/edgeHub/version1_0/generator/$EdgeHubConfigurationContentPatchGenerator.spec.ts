@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { generate$EdgeHubConfigurationContentPatch, conflictWithRouteEntry } from './$EdgeHubConfigurationContentPatchGenerator';
+import { generate$EdgeHubConfigurationContentPatch, conflictWithRouteEntry, conflictWithMqttBrokerEntry } from './$EdgeHubConfigurationContentPatchGenerator';
 import { RoutePathType } from '../../../viewModel/routeViewModel';
 
 describe('generate$EdgeHubConfigurationContentPatch', () => {
@@ -10,8 +10,10 @@ describe('generate$EdgeHubConfigurationContentPatch', () => {
             additionalEdgeHubEntries: {
                 'properties.desired': 'hello',
                 'properties.desired.routes.y.z': 'routeyz',
-                'properties.desired.storeAndForward': '7'
+                'properties.desired.storeAndForward': '7',
+                'properties.desired.mqttBroker.bridges': 'old bridge'
             },
+            mqttBroker: `{"bridges": []}`,
             routeViewModels: [
                 {
                     name: 'x',
@@ -34,6 +36,7 @@ describe('generate$EdgeHubConfigurationContentPatch', () => {
         });
 
         expect(result).toEqual({
+            'properties.desired.mqttBroker': {'bridges': []},
             'properties.desired.routes': {
                 y: {
                     priority: 100,
@@ -71,3 +74,10 @@ describe('conflictWithRoute', () => {
         expect(conflictWithRouteEntry(additionalEntry, routeNames)).toEqual(false);
     });
 });
+
+describe('conflictWithMqttBrokerEntry', () => {
+    it('returns true if key starts with properties.desired.mqttBroker', () => {
+        const additionalEntry = 'properties.desired.mqttBroker.bridges';
+        expect(conflictWithMqttBrokerEntry(additionalEntry, 'something')).toEqual(true);
+    })
+})

@@ -7,4 +7,5 @@ export interface $EdgeHubDesiredProperties {
     storeAndForwardConfiguration: {
         timeToLiveSecs: number | null;
     };
+    mqttBroker?: object | string;
 }
